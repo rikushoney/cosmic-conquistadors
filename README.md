@@ -17,10 +17,10 @@ A Space Invaders inspired game written in Java for Computer Science E214.
 # How to use:
 ## Windows
 Compile project
-`make.cmd compile`
+`make compile`
 
 Run game
-`make.cmd run`
+`make run`
 
 ## Linux/Mac
 Compile project
