@@ -1,2 +1,2 @@
-# cosmic-conquistadors
-A Space Invaders inspired game
+# Cosmic Conquistadors
+A Space Invaders inspired game written in Java for Computer Science E214.
