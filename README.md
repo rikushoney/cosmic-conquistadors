@@ -18,11 +18,13 @@ A Space Invaders inspired game written in Java for Computer Science E214.
 ## Windows
 Compile project
 `make.cmd compile`
+
 Run game
 `make.cmd run`
 
 ## Linux/Mac
 Compile project
 `./make compile`
+
 Run game
 `./make run`
