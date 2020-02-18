@@ -9,10 +9,10 @@ function usage {
 }
 
 if ($args[0] -eq "compile") {
-    Start-Process javac -ArgumentList "-cp", "lib/stdlib.jar", "src/Invaders.java",  "-d",  "target"
+    javac -cp "src;lib/stdlib.jar" "src/Invaders.java" -d "target"
 }
 elseif ($args[0] -eq "run") {
-    Start-Process java  -ArgumentList "-cp", "target;lib/stdlib.jar", "Invaders"
+    java -cp "target;lib/stdlib.jar" "Invaders"
 }
 else {
     usage

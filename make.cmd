@@ -2,7 +2,7 @@
 
 :make
 if ["%1"] equ ["compile"] (
-    javac -cp lib/stdlib.jar src/Invaders.java -d target
+    javac -cp src;lib/stdlib.jar src/Invaders.java -d target
     goto :done
 ) else if ["%1"] equ ["run"] (
     java -cp target;lib/stdlib.jar Invaders

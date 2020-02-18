@@ -11,7 +11,7 @@ usage() {
 }
 
 if [ "$1" == "compile" ]; then
-    javac -cp lib/stdlib.jar src/Invaders.java -d target
+    javac -cp src:lib/stdlib.jar src/Invaders.java -d target
 elif [ "$1" == "run" ]; then
     java -cp target:lib/stdlib.jar Invaders
 else
