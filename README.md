@@ -13,6 +13,7 @@ A Space Invaders inspired game written in Java for Computer Science E214.
 ├── README.md           # This file
 └── src                 # Project's source code
     └── Invaders.java   # The "main" file which serves as the game's entry point
+    └── Config.java     # Class used to load and save game options
 ```
 
 # How to use:
