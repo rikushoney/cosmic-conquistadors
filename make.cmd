@@ -20,5 +20,6 @@ echo    compile
 echo        Compile cosmic conquistadors
 echo    run
 echo        Run cosmic conquistadors
+echo.
 
 :done

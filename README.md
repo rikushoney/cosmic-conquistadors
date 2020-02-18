@@ -22,6 +22,13 @@ Compile project
 Run game
 `make run`
 
+## Powershell
+Compile project
+`./make compile`
+
+Run game
+`./make run`
+
 ## Linux/Mac
 Compile project
 `./make compile`

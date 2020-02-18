@@ -7,7 +7,7 @@ usage() {
     printf "\tcompile\n"
     printf "\t\tCompile cosmic conquistadors\n"
     printf "\trun\n"
-    printf "\t\tRun cosmic conquistadors\n"
+    printf "\t\tRun cosmic conquistadors\n\n"
 }
 
 if [ "$1" == "compile" ]; then
