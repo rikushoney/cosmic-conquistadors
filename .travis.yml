@@ -10,7 +10,7 @@ jdk:
 jobs:
   exclude:
     - os: osx
-    - jdk: openjdk11
+      jdk: openjdk11
 
 script:
   - ./make compile
