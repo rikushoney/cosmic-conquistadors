@@ -5,17 +5,15 @@
 
 import java.io.File;
 import java.text.ParseException;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Config {
     private String configFilename;
     private Map<String, Object> configDictionary;
     private int lineIndex;
 
-    private enum ValueType {
-        STRING, INTEGER, DOUBLE, INVALID
-    }
+    private enum ValueType { STRING, INTEGER, DOUBLE, INVALID }
 
     public Config(String filename) {
         configFilename = filename;
@@ -35,7 +33,8 @@ public class Config {
             throw new ParseException("Statements should have an \"=\" sign.", lineIndex);
         }
         else if (keyValues.length > 2) {
-            throw new ParseException("Statements should only have a single \"=\" sing.", lineIndex);
+            throw new ParseException("Statements should only have a single \"=\" sing.",
+                                     lineIndex);
         }
 
         for (int i = 0; i < keyValues.length; i++) {
@@ -49,7 +48,8 @@ public class Config {
         if (value.startsWith("\"") && value.endsWith("\"")) {
             return ValueType.STRING;
         }
-        else if (Character.isDigit(value.charAt(0)) && Character.isDigit(value.charAt(value.length() - 1))) {
+        else if (Character.isDigit(value.charAt(0)) &&
+                 Character.isDigit(value.charAt(value.length() - 1))) {
             if (value.contains(".")) {
                 return ValueType.DOUBLE;
             }
@@ -78,7 +78,8 @@ public class Config {
                 }
             }
 
-            throw new ParseException("unexpected character \"" + offendingCharacter + "\"", lineIndex);
+            throw new ParseException("unexpected character \"" + offendingCharacter + "\"",
+                                     lineIndex);
         }
     }
 
@@ -89,12 +90,13 @@ public class Config {
         catch (NumberFormatException e) {
             char offendingCharacter = 0;
             for (char c : value.toCharArray()) {
-                if (!Character.isDigit(c) &&  c != '-' && c != '.') {
+                if (!Character.isDigit(c) && c != '-' && c != '.') {
                     offendingCharacter = c;
                 }
             }
 
-            throw new ParseException("unexpected character \"" + offendingCharacter + "\"", lineIndex);
+            throw new ParseException("unexpected character \"" + offendingCharacter + "\"",
+                                     lineIndex);
         }
     }
 
@@ -117,18 +119,18 @@ public class Config {
             // Check the type of value - strings are surrounded by quotes
             // and numbers only contain digits or a single '.' for floating
             // point values
-            switch(guessType(value)) {
-                case STRING:
-                    configDictionary.put(identifier, parseStringValue(value));
-                    break;
-                case INTEGER:
-                    configDictionary.put(identifier, parseIntegerValue(value));
-                    break;
-                case DOUBLE:
-                    configDictionary.put(identifier, parseDoubleValue(value));
-                    break;
-                default:
-                    throw new ParseException("invalid value \"" + value + "\".", lineIndex);
+            switch (guessType(value)) {
+            case STRING:
+                configDictionary.put(identifier, parseStringValue(value));
+                break;
+            case INTEGER:
+                configDictionary.put(identifier, parseIntegerValue(value));
+                break;
+            case DOUBLE:
+                configDictionary.put(identifier, parseDoubleValue(value));
+                break;
+            default:
+                throw new ParseException("invalid value \"" + value + "\".", lineIndex);
             }
         }
     }
