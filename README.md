@@ -1,6 +1,8 @@
 # Cosmic Conquistadors
 A Space Invaders inspired game written in Java for Computer Science E214.
 
+[![Build Status](https://travis-ci.org/rikushoney/cosmic-conquistadors.svg?branch=master)](https://travis-ci.org/rikushoney/cosmic-conquistadors)
+
 # Project layout
 ```bash
 .
