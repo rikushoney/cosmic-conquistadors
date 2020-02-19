@@ -1,5 +1,5 @@
 /*
-    Written by Rikus Honey for cosmic-conquestadors
+    Written by Rikus Honey for cosmic-conquistadors
     https://github.com/rikushoney/cosmic-conquistadors
 */
 

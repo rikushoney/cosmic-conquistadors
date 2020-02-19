@@ -11,6 +11,7 @@ A Space Invaders inspired game written in Java for Computer Science E214.
 ├── make.cmd            # Make script for Windows
 ├── make.ps1            # Make script for Powershell
 ├── README.md           # This file
+├── settings.cfg        # File used to save game settings
 └── src                 # Project's source code
     └── Invaders.java   # The "main" file which serves as the game's entry point
     └── Config.java     # Class used to load and save game options
@@ -18,13 +19,14 @@ A Space Invaders inspired game written in Java for Computer Science E214.
 
 # How to use:
 ## Windows
+### CMD
 Compile project
 `make compile`
 
 Run game
 `make run`
 
-## Powershell
+### Powershell
 Compile project
 `./make compile`
 
