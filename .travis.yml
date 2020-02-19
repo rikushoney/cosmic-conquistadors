@@ -1,0 +1,16 @@
+language: java
+os:
+  - linux
+  - osx
+dist: bionic
+osx_image: xcode11.3
+jdk:
+  - oraclejdk11
+  - openjdk11
+jobs:
+  exclude:
+    - os: osx
+    - jdk: openjdk11
+
+script:
+  - ./make compile
