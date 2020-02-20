@@ -2,7 +2,12 @@
 
 :make
 if ["%1"] equ ["compile"] (
-    javac -cp src;lib/stdlib.jar src/Invaders.java -d target
+    set debugArgs=""
+    if ["%2"] equ ["debug"] (
+        set debugArgs="-g:source,lines,vars"
+    )
+
+    javac -cp src;lib/stdlib.jar src/Invaders.java -d target --release 11 %debugArgs%
     goto :done
 ) else if ["%1"] equ ["run"] (
     java -cp target;lib/stdlib.jar Invaders

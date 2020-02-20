@@ -11,7 +11,12 @@ usage() {
 }
 
 if [ "$1" == "compile" ]; then
-    javac -cp src:lib/stdlib.jar src/Invaders.java -d target
+    debugArgs=""
+    if [ "$2" == "debug" ]; then
+        debugArgs="-g:source,lines,vars"
+    fi
+
+    javac -cp src:lib/stdlib.jar src/Invaders.java -d target --release 11 $debugArgs
 elif [ "$1" == "run" ]; then
     java -cp target:lib/stdlib.jar Invaders
 else

@@ -9,7 +9,12 @@ function usage {
 }
 
 if ($args[0] -eq "compile") {
-    javac -cp "src;lib/stdlib.jar" "src/Invaders.java" -d "target"
+    $debugArgs=""
+    if ($args[1] -eq "debug") {
+        $debugArgs="-g:source,lines,vars"
+    }
+
+    javac -cp "src;lib/stdlib.jar" "src/Invaders.java" -d "target" --release 11 $debugArgs
 }
 elseif ($args[0] -eq "run") {
     java -cp "target;lib/stdlib.jar" "Invaders"
