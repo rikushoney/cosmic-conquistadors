@@ -16,8 +16,9 @@ public class Invaders {
             cfg.writeConfig();
         }
         catch (ParseException e) {
-            StdOut.println("Error occured while parsing " + configFilename + " at line " +
-                           (e.getErrorOffset() + 1) + ": " + e.getMessage());
+            StdOut.println("Error occured while parsing " + configFilename +
+                           " at line " + (e.getErrorOffset() + 1) + ": " +
+                           e.getMessage());
         }
         catch (Exception e) {
             StdOut.println("Unhandled exception: " + e.getMessage());

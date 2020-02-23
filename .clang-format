@@ -20,10 +20,10 @@ BraceWrapping:
 AlignTrailingComments: true
 AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: true
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 ---
 Language: Java
-ColumnLimit: 99
+ColumnLimit: 80
 BreakAfterJavaFieldAnnotations: true
