@@ -14,3 +14,17 @@ jobs:
 
 script:
   - ./make compile
+
+after_success:
+  - ./make docs
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: doc
+  committer_from_gh: true
+  on:
+    branch: master
+    os: linux
+    jdk: openjdk11

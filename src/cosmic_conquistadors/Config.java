@@ -1,3 +1,7 @@
+package cosmic_conquistadors;
+
+import edu.princeton.cs.introcs.In;
+import edu.princeton.cs.introcs.Out;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.ParseException;

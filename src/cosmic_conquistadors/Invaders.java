@@ -1,3 +1,6 @@
+package cosmic_conquistadors;
+
+import edu.princeton.cs.introcs.StdOut;
 import java.text.ParseException;
 
 /**

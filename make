@@ -16,9 +16,11 @@ if [ "$1" == "compile" ]; then
         debugArgs="-g:source,lines,vars"
     fi
 
-    javac -cp src:lib/stdlib.jar src/Invaders.java -d target --release 11 $debugArgs
+    javac --release 11 -cp lib/stdlib.jar -d target src/cosmic_conquistadors/*.java $debugArgs
 elif [ "$1" == "run" ]; then
-    java -cp target:lib/stdlib.jar Invaders
+    java -cp target:lib/stdlib.jar cosmic_conquistadors.Invaders
+elif [ "$1" == "docs" ]; then
+    javadoc -cp lib/stdlib.jar -d doc src/cosmic_conquistadors/*.java
 else
     usage
 fi

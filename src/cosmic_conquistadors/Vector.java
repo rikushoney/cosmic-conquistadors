@@ -1,3 +1,5 @@
+package cosmic_conquistadors;
+
 /**
  * The {@code Vector} class provides a way to represent values with both scale
  * and magnitude in two dimensions.

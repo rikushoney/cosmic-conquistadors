@@ -1,3 +1,5 @@
+package cosmic_conquistadors;
+
 /**
  * The {@code DefaultCritter} is the default implementation of the {@code
  * Critter} interface. It uses the equations of motion to calculate how the

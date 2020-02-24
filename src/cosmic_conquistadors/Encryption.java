@@ -1,3 +1,5 @@
+package cosmic_conquistadors;
+
 /**
  * The {@code Encryption} class provides basic XOR encryption and decryption
  * methods. Not the most secure method of encryption possible, but good enough

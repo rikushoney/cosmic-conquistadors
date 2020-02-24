@@ -14,10 +14,13 @@ if ($args[0] -eq "compile") {
         $debugArgs="-g:source,lines,vars"
     }
 
-    javac -cp "src;lib/stdlib.jar" "src/Invaders.java" -d "target" --release 11 $debugArgs
+    javac --release 11 -cp "lib/stdlib.jar" -d "target" "src/cosmic_conquistadors/*.java" $debugArgs
 }
 elseif ($args[0] -eq "run") {
-    java -cp "target;lib/stdlib.jar" "Invaders"
+    java -cp "target;lib/stdlib.jar" cosmic_conquistadors.Invaders
+}
+elseif ($args[0] -eq "docs") {
+    javadoc -cp "lib/stdlib.jar" -d "doc" "src/cosmic_conquistadors/*.java"
 }
 else {
     usage

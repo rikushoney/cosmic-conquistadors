@@ -1,3 +1,5 @@
+package cosmic_conquistadors;
+
 /**
  * The {@code Critter} interface defines what methods on-screen objects should
  * have. All on-screen objects should have a position, velocity and
