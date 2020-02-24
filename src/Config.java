@@ -56,7 +56,7 @@ public class Config {
     }
 
     /**
-     * Get the name of the config file
+     * Gets the name of the config file
      * @return the name of the config file that is being read/written from/to
      */
     public String getFilename() { return this.filename; }
@@ -225,7 +225,8 @@ public class Config {
     }
 
     /**
-     * Load the config from the file given by {@link #getFilename()} into memory
+     * Loads the config from the file given by {@link #getFilename()} into
+     * memory
      * @throws ParseException           when the config file contains invalid
      *                                  syntax
      * @throws FileNotFoundException    when the config file does not exist
@@ -242,7 +243,7 @@ public class Config {
     }
 
     /**
-     * Write the config in memory to the file given by {@link #getFilename()}
+     * Writes the config in memory to the file given by {@link #getFilename()}
      * @throws ParseException   when the config file has invalid syntax
      */
     public void writeConfig() throws ParseException {

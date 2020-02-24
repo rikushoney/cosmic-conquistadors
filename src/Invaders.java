@@ -1,14 +1,17 @@
-/*
-    Written by Rikus Honey for cosmic-conquistadors
-    https://github.com/rikushoney/cosmic-conquistadors
-*/
-
 import java.text.ParseException;
 
+/**
+ * The {@code Invaders} class provides the entry point of the game where it
+ * loads the game settings and starts the game loop. It is also responsible for
+ * catching exceptions and providing the user with usefull error messages.
+ */
 public class Invaders {
+    /**
+     * The entry point of the game
+     * @param args  command line arguments the game was started with
+     */
     public static void main(String[] args) {
         String configFilename = "settings.cfg";
-        // StdDraw.setScale(-1, 1);
 
         try {
             Config cfg = new Config(configFilename);
