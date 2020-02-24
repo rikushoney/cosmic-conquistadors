@@ -11,18 +11,20 @@ jobs:
   exclude:
     - os: osx
       jdk: openjdk11
-
-script:
-  - ./make compile
-
-after_success:
-  - ./make docs
-
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+before_deploy:
+  - ./gradlew javadoc
 deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
-  local_dir: doc
+  local_dir: build/docs/javadoc
   committer_from_gh: true
   on:
     branch: master

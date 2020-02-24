@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+}
+
+dependencies {
+    implementation files('lib/stdlib.jar')
+}
+
+application {
+    mainClassName = 'cosmic_conquistadors.Invaders'
+}
