@@ -4,6 +4,10 @@ os:
   - osx
 dist: bionic
 osx_image: xcode11.3
+addons:
+  homebrew:
+    packages:
+    - ant
 jdk:
   - oraclejdk11
   - openjdk11

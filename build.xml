@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE xml>
-<project name="cosmic-conquistadors" basedir=".">
+<project name="cosmic-conquistadors" basedir="." default="help">
     <property name="src.dir" value="src" />
     <property name="build.dir" value="build" />
     <property name="lib.dir" value="lib" />
@@ -14,16 +14,16 @@
         <fileset dir="${lib.dir}" includes="**/*.jar" />
     </path>
 
-    <target name="clean">
+    <target name="clean" description="Delete artifacts in the build folder.">
         <delete dir="${build.dir}" />
     </target>
 
-    <target name="compile">
+    <target name="compile" description="Compile the Java source files to class files.">
         <mkdir dir="${classes.dir}" />
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" release="11" includeAntRuntime="no" />
     </target>
 
-    <target name="jar" depends="compile">
+    <target name="jar" depends="compile" description="Create a jar archive from compiled class files.">
         <mkdir dir="${jar.dir}" />
         <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
             <manifest>
@@ -32,7 +32,7 @@
         </jar>
     </target>
 
-    <target name="run" depends="jar">
+    <target name="run" depends="jar" description="Run the game.">
         <java fork="true" classname="${main-class}">
             <classpath>
                 <path refid="classpath" />
@@ -41,8 +41,16 @@
         </java>
     </target>
 
-    <target name="doc">
+    <target name="doc" description="Build documentation for the project.">
         <mkdir dir="${doc.dir}" />
         <javadoc sourcepath="${src.dir}" destdir="${doc.dir}" classpathref="classpath" />
+    </target>
+
+    <target name="help" description="Show help.">
+        <java classname="org.apache.tools.ant.Main">
+            <arg value="-projecthelp" />
+            <arg value="-buildfile" />
+            <arg value="${ant.file}" />
+        </java>
     </target>
 </project>
