@@ -9,12 +9,11 @@ addons:
     update: true
     packages:
       - ant
-jdk:
-  - oraclejdk8
-  - openjdk8
 jobs:
-  exclude:
+  include:
     - os: osx
+      jdk: oraclejdk8
+    - os: linux
       jdk: openjdk8
 script:
   - ant jar
