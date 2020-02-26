@@ -84,7 +84,8 @@ public class Config {
     }
 
     private boolean shouldIgnoreLine(String line) {
-        return line.startsWith("#") || line.isBlank();
+
+        return line.startsWith("#") || line.trim().isEmpty();
     }
 
     private Integer parseIntegerValue(String value) throws ParseException {
@@ -152,7 +153,7 @@ public class Config {
         }
 
         for (int i = 0; i < keyValues.length; i++) {
-            keyValues[i] = keyValues[i].strip();
+            keyValues[i] = keyValues[i].trim();
         }
 
         return keyValues;
@@ -266,7 +267,6 @@ public class Config {
             configOut.println(line);
         }
 
-        configOut.println();
         configOut.close();
     }
 
