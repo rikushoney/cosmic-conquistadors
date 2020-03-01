@@ -7,7 +7,7 @@
     <property name="classes.dir" value="${build.dir}/classes" />
     <property name="jar.dir" value="${build.dir}/jar" />
     <property name="doc.dir" value="${build.dir}/doc" />
-
+    <property name="manifest-file" value="${src.dir}/manifest.txt" />
     <property name="main-class" value="cosmic_conquistadors.Invaders" />
 
     <path id="classpath">
@@ -23,10 +23,12 @@
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeAntRuntime="no" debug="yes" />
     </target>
 
-    <target name="jar" depends="compile" description="Create a jar archive from compiled class files.">
+    <target name="jar" depends="compile" description="Create an executable jar archive from compiled class files.">
         <mkdir dir="${jar.dir}" />
-        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}" manifest="${src.dir}/manifest.txt" />
-        <copy file="${lib.dir}/**/*.jar" todir="${jar.dir}" overwrite="yes" />
+        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}" manifest="${manifest-file}" />
+        <copy todir="${jar.dir}">
+            <fileset dir="${lib.dir}" includes="**/*.jar" />
+        </copy>
     </target>
 
     <target name="run" depends="jar" description="Run the game.">
