@@ -49,14 +49,18 @@ public class Config {
 
     private enum ValueType { STRING, INTEGER, DOUBLE, INVALID }
 
+    public Config() {
+        this.dictionary = new HashMap<String, Object>();
+        this.lineIndex = -1;
+    }
+
     /**
      * Constructor
      * @param filename the name of the file to read/write the config from/to
      */
     public Config(String filename) {
+        this();
         this.filename = filename;
-        this.dictionary = new HashMap<String, Object>();
-        this.lineIndex = -1;
     }
 
     /**

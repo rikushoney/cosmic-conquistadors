@@ -4,7 +4,9 @@
     <property name="src.dir" value="src" />
     <property name="build.dir" value="build" />
     <property name="lib.dir" value="lib" />
+    <property name="test.dir" value="test" />
     <property name="classes.dir" value="${build.dir}/classes" />
+    <property name="test.build.dir" value="${build.dir}/test" />
     <property name="jar.dir" value="${build.dir}/jar" />
     <property name="doc.dir" value="${build.dir}/doc" />
     <property name="manifest-file" value="${src.dir}/manifest.txt" />
@@ -12,6 +14,12 @@
 
     <path id="classpath">
         <fileset dir="${lib.dir}" includes="**/*.jar" />
+    </path>
+
+    <path id="test.classpath">
+        <path refid="classpath" />
+        <pathelement path="${classes.dir}" />
+        <pathelement path="${test.build.dir}" />
     </path>
 
     <target name="clean" description="Delete artifacts in the build folder.">
@@ -33,6 +41,21 @@
 
     <target name="run" depends="jar" description="Run the game.">
         <java fork="true" jar="${jar.dir}/${ant.project.name}.jar" />
+    </target>
+
+    <target name="test-compile" depends="compile" description="Compile tests.">
+        <mkdir dir="${test.build.dir}" />
+        <javac srcdir="${test.dir}" destdir="${test.build.dir}" classpathref="test.classpath" includeAntRuntime="no" />
+    </target>
+
+    <target name="test" depends="test-compile" description="Run unit tests">
+        <junit printsummary="on">
+            <classpath refid="test.classpath" />
+            <formatter type="brief" usefile="false" />
+            <batchtest>
+                <fileset dir="${test.dir}" includes="**/*Test.java" />
+            </batchtest>
+        </junit>
     </target>
 
     <target name="doc" description="Build documentation for the project.">
