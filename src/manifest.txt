@@ -1,0 +1,2 @@
+Main-Class: cosmic_conquistadors.Invaders
+Class-Path: stdlib.jar
