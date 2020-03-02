@@ -1,7 +1,7 @@
 package cosmic_conquistadors;
 
+import edu.princeton.cs.introcs.Out;
 import edu.princeton.cs.introcs.StdOut;
-import java.text.ParseException;
 
 /**
  * The {@code Invaders} class provides the entry point of the game where it
@@ -14,20 +14,50 @@ public class Invaders {
      * @param args  command line arguments the game was started with
      */
     public static void main(String[] args) {
-        String configFilename = "settings.cfg";
+        String CONFIG_FILENAME = "settings.cfg";
 
         try {
-            Config cfg = new Config(configFilename);
+            Config cfg = new Config(CONFIG_FILENAME);
             cfg.loadConfig();
+
+            InvaderGameState gameState = new InvaderGameState(cfg);
+            gameState.start();
+
             cfg.writeConfig();
         }
-        catch (ParseException e) {
-            StdOut.println("Error occured while parsing " + configFilename +
-                           " at line " + (e.getErrorOffset() + 1) + ": " +
-                           e.getMessage());
+        catch (ConfigParseException e) {
+            StdOut.println(e.getMessage());
+        }
+        catch (ConfigFileNotFoundException e) {
+            String[] DEFAULT_CONFIG = {
+                "###################################",
+                "# Settings for Cosmic Conquestadors",
+                "###################################",
+                "",
+                "# Display",
+                "windowWidth = 1000",
+                "windowHeight = 500",
+                "maxFps = 60",
+                "",
+                "# Development",
+                "debugMode = 1",
+                "",
+                "# Player",
+                "playerName = \"Player 1\"",
+            };
+
+            Out configOut = new Out(e.getFilename());
+
+            for (String line : DEFAULT_CONFIG) {
+                configOut.println(line);
+            }
+
+            configOut.close();
+            main(args);
         }
         catch (Exception e) {
             StdOut.println("Unhandled exception: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
