@@ -4,7 +4,6 @@ import edu.princeton.cs.introcs.In;
 import edu.princeton.cs.introcs.Out;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,11 +87,11 @@ public class Config {
     }
 
     private boolean shouldIgnoreLine(String line) {
-
         return line.startsWith("#") || line.trim().isEmpty();
     }
 
-    private Integer parseIntegerValue(String value) throws ParseException {
+    private Integer parseIntegerValue(String value)
+        throws ConfigParseException {
         try {
             return Integer.valueOf(value);
         }
@@ -104,13 +103,13 @@ public class Config {
                 }
             }
 
-            throw new ParseException("unexpected character \"" +
-                                         offendingCharacter + "\".",
-                                     this.lineIndex);
+            throw new ConfigParseException("unexpected character \"" +
+                                               offendingCharacter + "\".",
+                                           this.filename, this.lineIndex);
         }
     }
 
-    private Double parseDoubleValue(String value) throws ParseException {
+    private Double parseDoubleValue(String value) throws ConfigParseException {
         try {
             return Double.valueOf(value);
         }
@@ -134,9 +133,9 @@ public class Config {
                 }
             }
 
-            throw new ParseException("unexpected character \"" +
-                                         offendingCharacter + "\".",
-                                     this.lineIndex);
+            throw new ConfigParseException("unexpected character \"" +
+                                               offendingCharacter + "\".",
+                                           this.filename, this.lineIndex);
         }
     }
 
@@ -144,16 +143,18 @@ public class Config {
         return value.replace("\"", "");
     }
 
-    private String[] parseStatement(String statement) throws ParseException {
+    private String[] parseStatement(String statement)
+        throws ConfigParseException {
         String[] keyValues = statement.split("=");
         if (keyValues.length < 2) {
-            throw new ParseException("Statements should have an \"=\" sign.",
-                                     this.lineIndex);
+            throw new ConfigParseException(
+                "Statements should have an \"=\" sign.", this.filename,
+                this.lineIndex);
         }
         else if (keyValues.length > 2) {
-            throw new ParseException(
+            throw new ConfigParseException(
                 "Statements should only have a single \"=\" sing.",
-                this.lineIndex);
+                this.filename, this.lineIndex);
         }
 
         for (int i = 0; i < keyValues.length; i++) {
@@ -165,10 +166,11 @@ public class Config {
 
     /**
      * Parses the config given by {@code lines} and stores the values in memory
-     * @param lines             an array of lines with valid syntax
-     * @throws ParseException   when a line in {@code lines} has invalid syntax
+     * @param lines                     an array of lines with valid syntax
+     * @throws ConfigParseException     when a line in {@code lines} has invalid
+     *                                  syntax
      */
-    public void parseConfig(String[] lines) throws ParseException {
+    public void parseConfig(String[] lines) throws ConfigParseException {
         for (this.lineIndex = 0; this.lineIndex < lines.length;
              this.lineIndex++) {
             String line = lines[this.lineIndex];
@@ -195,18 +197,20 @@ public class Config {
                 break;
             }
             default:
-                throw new ParseException("invalid value \"" + value + "\".",
-                                         this.lineIndex);
+                throw new ConfigParseException("invalid value \"" + value +
+                                                   "\".",
+                                               this.filename, this.lineIndex);
             }
         }
     }
 
     /**
-     * Modifies {@code lines} with updated/new values from the config in memory
-     * @param lines             an array of lines with valid syntax
-     * @throws ParseException   when a line in {@code lines} has invalid syntax
+     * Modifies {@code lines} with updated values from the config in memory
+     * @param lines                     an array of lines with valid syntax
+     * @throws ConfigParseException     when a line in {@code lines} has invalid
+     *                                  syntax
      */
-    public void flushConfig(String[] lines) throws ParseException {
+    public void flushConfig(String[] lines) throws ConfigParseException {
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i];
 
@@ -236,32 +240,36 @@ public class Config {
     /**
      * Loads the config from the file given by {@link #getFilename()} into
      * memory
-     * @throws ParseException           when the config file contains invalid
-     *                                  syntax
-     * @throws FileNotFoundException    when the config file does not exist
+     * @throws ConfigParseException         when the config file contains
+     *                                      invalid syntax
+     * @throws ConfigFileNotFoundException  when the config file does not
+     *                                      exist
      */
-    public void loadConfig() throws ParseException, FileNotFoundException {
-        In configFile = new In(this.filename);
+    public void loadConfig()
+        throws ConfigParseException, FileNotFoundException {
+        File configFile = new File(this.filename);
         if (!configFile.exists()) {
-            throw new FileNotFoundException("Config file \"" + this.filename +
-                                            "\" not found.");
+            throw new ConfigFileNotFoundException(this.filename);
         }
 
-        this.parseConfig(configFile.readAllLines());
-        configFile.close();
+        In configFileReader = new In(configFile);
+        this.parseConfig(configFileReader.readAllLines());
+        configFileReader.close();
     }
 
     /**
      * Writes the config in memory to the file given by {@link #getFilename()}
-     * @throws ParseException   when the config file has invalid syntax
+     * @throws ConfigParseException     when the config file has invalid syntax
      */
-    public void writeConfig() throws ParseException {
+    public void writeConfig() throws ConfigParseException {
         String[] lines = {};
 
-        In configFile = new In(this.filename);
+        File configFile = new File(this.filename);
         if (configFile.exists()) {
-            lines = configFile.readAllLines();
-            new File(this.filename).delete();
+            In configFileReader = new In(configFile);
+            lines = configFileReader.readAllLines();
+            configFileReader.close();
+            configFile.delete();
         }
 
         Out configOut = new Out(this.filename);
