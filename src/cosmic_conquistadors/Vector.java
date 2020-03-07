@@ -68,4 +68,9 @@ public class Vector {
 
         return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
     }
+
+    @Override
+    public String toString() {
+        return "[" + Double.toString(this.x) + ";" + Double.toString(y) + "]";
+    }
 }
