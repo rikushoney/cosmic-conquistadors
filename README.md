@@ -65,6 +65,6 @@ javadoc -cp lib/stdlib.jar src/cosmic_conquistadors/*.java -d build/doc
 
 This creates the documentation for the project in `build/doc` ready to be uploaded to the internet.
 
-# Documentation:
+# Documentation
 
 View the latest documentation [here](https://rikushoney.github.io/cosmic-conquistadors/).
