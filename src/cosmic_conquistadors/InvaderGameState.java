@@ -18,7 +18,7 @@ public class InvaderGameState {
     private void startRenderLoop() {
         long targetFrameTime =
             Math.round(1000.0 / this.config.getInt("maxFps"));
-        long timeDelta = 0;
+        // long timeDelta = 0;
 
         while (!this.shouldQuit) {
             long frameStart = System.currentTimeMillis();
