@@ -5,7 +5,7 @@ package cosmic_conquistadors;
  * and magnitude in two dimensions.
  */
 public class Vector {
-    double x, y;
+    private double x, y;
 
     /**
      * Constructor

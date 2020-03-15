@@ -22,42 +22,25 @@ public class Invaders {
 
             InvaderGameState gameState = new InvaderGameState(cfg);
             gameState.start();
-
-            cfg.writeConfig();
-        }
-        catch (ConfigParseException e) {
+        } catch (ConfigParseException e) {
             StdOut.println(e.getMessage());
-        }
-        catch (ConfigFileNotFoundException e) {
-            String[] DEFAULT_CONFIG = {
-                "###################################",
-                "# Settings for Cosmic Conquestadors",
-                "###################################",
-                "",
-                "# Display",
-                "windowWidth = 1024",
-                "windowHeight = 1024",
-                "maxFps = 60",
-                "",
-                "# Development",
-                "debugMode = 1",
-                "",
-                "# Player",
-                "playerName = \"Player 1\"",
-            };
-
+        } catch (ConfigFileNotFoundException e) {
             Out configOut = new Out(e.getFilename());
 
-            for (String line : DEFAULT_CONFIG) {
+            for (String line : Config.DEFAULT_CONFIG) {
                 configOut.println(line);
             }
 
             configOut.close();
             main(args);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             StdOut.println("Unhandled exception: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            try {
+                Config.getGlobalConfig().writeConfig();
+            } catch (Exception e) {
+            }
         }
     }
 }

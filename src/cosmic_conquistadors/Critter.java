@@ -18,6 +18,8 @@ public interface Critter {
      */
     public void setPosition(Vector position);
 
+    public void setPosition(double x, double y);
+
     /**
      * Gets the velocity of the {@code Critter}
      * @return  the current velocity of the {@code Critter}
@@ -29,6 +31,8 @@ public interface Critter {
      * @param velocity  the new velocity of the {@code Critter}
      */
     public void setVelocity(Vector velocity);
+
+    public void setVelocity(double x, double y);
 
     /**
      * Gets the acceleration of the {@code Critter}
@@ -42,6 +46,8 @@ public interface Critter {
      */
     public void setAcceleration(Vector acceleration);
 
+    public void setAcceleration(double x, double y);
+
     /**
      * Advance the {@code Critter} according to the equations of motion
      * @param dt    the change in time (delta time)
@@ -52,4 +58,16 @@ public interface Critter {
      * Draw the {@code Critter} at its current position
      */
     public void draw();
+
+    /**
+     * Gets the unique ID of the {@code Critter}
+     * @return
+     */
+    public long getId();
+
+    /**
+     * Gets the unique ID of the {@code Critter} as a hex string
+     * @return
+     */
+    public String getIdString();
 }
