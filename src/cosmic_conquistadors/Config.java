@@ -3,7 +3,6 @@ package cosmic_conquistadors;
 import edu.princeton.cs.introcs.In;
 import edu.princeton.cs.introcs.Out;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,12 +44,33 @@ public class Config {
     private String filename;
     private Map<String, Object> dictionary;
     private int lineIndex;
+    private static Config globalConfig;
+
+    public static final String DEFAULT_CONFIG_FILE = "settings.cfg";
+
+    public static final String[] DEFAULT_CONFIG = {
+        "###################################",
+        "# Settings for Cosmic Conquestadors",
+        "###################################",
+        "",
+        "# Display",
+        "windowWidth = 1024",
+        "windowHeight = 1024",
+        "maxFps = 60",
+        "",
+        "# Development",
+        "debugMode = 0",
+        "",
+        "# Player",
+        "playerName = \"Player 1\"",
+    };
 
     private enum ValueType { STRING, INTEGER, DOUBLE, INVALID }
 
     public Config() {
         this.dictionary = new HashMap<String, Object>();
         this.lineIndex = -1;
+        globalConfig = this;
     }
 
     /**
@@ -64,24 +84,22 @@ public class Config {
 
     /**
      * Gets the name of the config file
-     * @return the name of the config file that is being read/written from/to
+     * @return the name of the config file that is being read/written
+     *     from/to
      */
     public String getFilename() { return this.filename; }
 
     private ValueType guessType(String value) {
         if (value.startsWith("\"") && value.endsWith("\"")) {
             return ValueType.STRING;
-        }
-        else if (Character.isDigit(value.charAt(0)) &&
-                 Character.isDigit(value.charAt(value.length() - 1))) {
+        } else if (Character.isDigit(value.charAt(0)) &&
+                   Character.isDigit(value.charAt(value.length() - 1))) {
             if (value.contains(".")) {
                 return ValueType.DOUBLE;
-            }
-            else {
+            } else {
                 return ValueType.INTEGER;
             }
-        }
-        else {
+        } else {
             return ValueType.INVALID;
         }
     }
@@ -94,8 +112,7 @@ public class Config {
         throws ConfigParseException {
         try {
             return Integer.valueOf(value);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             char offendingCharacter = 0;
             for (char c : value.toCharArray()) {
                 if (!Character.isDigit(c) && c != '-') {
@@ -112,8 +129,7 @@ public class Config {
     private Double parseDoubleValue(String value) throws ConfigParseException {
         try {
             return Double.valueOf(value);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             char offendingCharacter = 0;
             boolean hasDot = false;
             for (char c : value.toCharArray()) {
@@ -121,8 +137,7 @@ public class Config {
                     if (hasDot) {
                         offendingCharacter = c;
                         break;
-                    }
-                    else {
+                    } else {
                         hasDot = true;
                         continue;
                     }
@@ -150,8 +165,7 @@ public class Config {
             throw new ConfigParseException(
                 "Statements should have an \"=\" sign.", this.filename,
                 this.lineIndex);
-        }
-        else if (keyValues.length > 2) {
+        } else if (keyValues.length > 2) {
             throw new ConfigParseException(
                 "Statements should only have a single \"=\" sing.",
                 this.filename, this.lineIndex);
@@ -165,9 +179,11 @@ public class Config {
     }
 
     /**
-     * Parses the config given by {@code lines} and stores the values in memory
+     * Parses the config given by {@code lines} and stores the values in
+     * memory
      * @param lines                     an array of lines with valid syntax
-     * @throws ConfigParseException     when a line in {@code lines} has invalid
+     * @throws ConfigParseException     when a line in {@code lines} has
+     *     invalid
      *                                  syntax
      */
     public void parseConfig(String[] lines) throws ConfigParseException {
@@ -207,7 +223,8 @@ public class Config {
     /**
      * Modifies {@code lines} with updated values from the config in memory
      * @param lines                     an array of lines with valid syntax
-     * @throws ConfigParseException     when a line in {@code lines} has invalid
+     * @throws ConfigParseException     when a line in {@code lines} has
+     *     invalid
      *                                  syntax
      */
     public void flushConfig(String[] lines) throws ConfigParseException {
@@ -226,8 +243,7 @@ public class Config {
             if (newValue != null) {
                 if (newValue instanceof String) {
                     value = "\"" + newValue.toString() + "\"";
-                }
-                else {
+                } else {
                     value = newValue.toString();
                 }
             }
@@ -246,7 +262,7 @@ public class Config {
      *                                      exist
      */
     public void loadConfig()
-        throws ConfigParseException, FileNotFoundException {
+        throws ConfigParseException, ConfigFileNotFoundException {
         File configFile = new File(this.filename);
         if (!configFile.exists()) {
             throw new ConfigFileNotFoundException(this.filename);
@@ -258,8 +274,10 @@ public class Config {
     }
 
     /**
-     * Writes the config in memory to the file given by {@link #getFilename()}
-     * @throws ConfigParseException     when the config file has invalid syntax
+     * Writes the config in memory to the file given by {@link
+     * #getFilename()}
+     * @throws ConfigParseException     when the config file has invalid
+     *     syntax
      */
     public void writeConfig() throws ConfigParseException {
         String[] lines = {};
@@ -283,25 +301,25 @@ public class Config {
     }
 
     /**
-     * Gets an option in the config as a generic object. Rather use one of the
-     * type-specific "get" methods when possible.
+     * Gets an option in the config as a generic object. Rather use one of
+     * the type-specific "get" methods when possible.
      * @param name  the name of the value to get
-     * @return      the value associated with {@code name} if it exists, else
+     * @return      the value associated with {@code name} if it exists,
+     *     else
      *              null
      */
     public Object getOption(String name) { return this.dictionary.get(name); }
 
     /**
-     * Sets an option in the config as a generic object. Rather use one of the
-     * type-specific "set" methods when possible.
+     * Sets an option in the config as a generic object. Rather use one of
+     * the type-specific "set" methods when possible.
      * @param name  the name of the value to set
      * @param value the value to set {@code name} to
      */
     public void setOption(String name, Object value) {
         if (this.getOption(name) != null) {
             this.dictionary.replace(name, value);
-        }
-        else {
+        } else {
             this.dictionary.put(name, value);
         }
     }
@@ -316,9 +334,9 @@ public class Config {
         Object value = this.getOption(name);
         if (value != null && value instanceof String) {
             return String.class.cast(value);
-        }
-        else {
-            return "";
+        } else {
+            this.setString(name, "");
+            return this.getString(name);
         }
     }
 
@@ -341,9 +359,9 @@ public class Config {
         Object value = this.getOption(name);
         if (value instanceof Integer) {
             return Integer.class.cast(value).intValue();
-        }
-        else {
-            return 0;
+        } else {
+            this.setInt(name, 0);
+            return this.getInt(name);
         }
     }
 
@@ -366,9 +384,9 @@ public class Config {
         Object value = this.getOption(name);
         if (value instanceof Double) {
             return Double.class.cast(value).doubleValue();
-        }
-        else {
-            return 0.0;
+        } else {
+            this.setDouble(name, 0.0);
+            return this.getDouble(name);
         }
     }
 
@@ -380,4 +398,6 @@ public class Config {
     public void setDouble(String name, double value) {
         this.setOption(name, Double.valueOf(value));
     }
+
+    public static final Config getGlobalConfig() { return globalConfig; }
 }

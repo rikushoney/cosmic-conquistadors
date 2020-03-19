@@ -7,6 +7,10 @@ package cosmic_conquistadors;
  */
 public class DefaultCritter implements Critter {
     private Vector position, velocity, acceleration;
+    private long id;
+    private static long critterCount;
+
+    static { critterCount = 0; }
 
     /**
      * Constructor
@@ -24,20 +28,43 @@ public class DefaultCritter implements Critter {
     /**
      * Constructor
      */
-    public DefaultCritter() { this(new Vector(), new Vector(), new Vector()); }
+    public DefaultCritter() {
+        this(new Vector(), new Vector(), new Vector());
+        this.id = critterCount;
+        critterCount++;
+    }
 
     public Vector getPosition() { return this.position; }
 
-    public void setPosition(Vector position) { this.position = position; }
+    public void setPosition(Vector position) {
+        this.setPosition(position.getX(), position.getY());
+    }
+
+    public void setPosition(double x, double y) {
+        this.position.setX(x);
+        this.position.setY(y);
+    }
 
     public Vector getVelocity() { return this.velocity; }
 
-    public void setVelocity(Vector velocity) { this.velocity = velocity; }
+    public void setVelocity(Vector velocity) {
+        this.setVelocity(velocity.getX(), velocity.getY());
+    }
+
+    public void setVelocity(double x, double y) {
+        this.velocity.setX(x);
+        this.velocity.setY(y);
+    }
 
     public Vector getAcceleration() { return this.acceleration; }
 
     public void setAcceleration(Vector acceleration) {
-        this.acceleration = acceleration;
+        this.setAcceleration(acceleration.getX(), acceleration.getY());
+    }
+
+    public void setAcceleration(double x, double y) {
+        this.acceleration.setX(x);
+        this.acceleration.setY(y);
     }
 
     public void advance(double dt) {
@@ -58,4 +85,16 @@ public class DefaultCritter implements Critter {
     }
 
     public void draw() {}
+
+    public final long getId() { return this.id; }
+
+    public final String getIdString() {
+        return "[" + String.format("0x%08X", this.id) + "]";
+    }
+
+    @Override
+    public String toString() {
+        return "Critter " + this.getIdString() + " at " +
+            this.getPosition().toString();
+    }
 }
