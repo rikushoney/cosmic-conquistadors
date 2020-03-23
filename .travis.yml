@@ -9,16 +9,17 @@ addons:
   apt:
     packages:
       - ant-optional
-include:
-  - dist: trusty
-    jdk: oraclejdk8
-  - osx_image: xcode9.3
-    jdk:
-      - oraclejdk8
-      - openjdk8
-exclude:
-  - osx_image: xcode11.3
-    jdk: openjdk8
+jobs:
+  include:
+    - dist: trusty
+      jdk: oraclejdk8
+    - osx_image: xcode9.3
+      jdk:
+        - oraclejdk8
+        - openjdk8
+  exclude:
+    - osx_image: xcode11.3
+      jdk: openjdk8
 script:
   - ant jar
   - ant doc
