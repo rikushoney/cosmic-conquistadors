@@ -12,6 +12,9 @@ addons:
   apt:
     packages:
       - ant-optional
+  homebrew:
+    packages:
+      - ant
 jobs:
   include:
     - os: linux
@@ -25,6 +28,7 @@ jobs:
       jdk: openjdk8
   exclude:
     - os: osx
+      osx_image: xcode11.3
       jdk: openjdk8
 script:
   - ant jar
