@@ -1,6 +1,5 @@
 package cosmic_conquistadors;
 
-import edu.princeton.cs.introcs.Out;
 import edu.princeton.cs.introcs.StdOut;
 
 /**
@@ -8,16 +7,14 @@ import edu.princeton.cs.introcs.StdOut;
  * loads the game settings and starts the game loop. It is also responsible for
  * catching exceptions and providing the user with usefull error messages.
  */
-public class Invaders {
+public final class Invaders {
     /**
      * The entry point of the game
      * @param args  command line arguments the game was started with
      */
     public static void main(String[] args) {
-        String CONFIG_FILENAME = "settings.cfg";
-
         try {
-            Config cfg = new Config(CONFIG_FILENAME);
+            Config cfg = new Config(Config.DEFAULT_CONFIG_FILE);
             cfg.loadConfig();
 
             InvaderGameState gameState = new InvaderGameState(cfg);
@@ -25,22 +22,20 @@ public class Invaders {
         } catch (ConfigParseException e) {
             StdOut.println(e.getMessage());
         } catch (ConfigFileNotFoundException e) {
-            Out configOut = new Out(e.getFilename());
-
-            for (String line : Config.DEFAULT_CONFIG) {
-                configOut.println(line);
-            }
-
-            configOut.close();
+            Config.createDefaultConfig(e.getFilename());
             main(args);
         } catch (Exception e) {
             StdOut.println("Unhandled exception: " + e.getMessage());
-            e.printStackTrace();
+            if (Config.getGlobalConfig().getInt("debugMode") != 0) {
+                e.printStackTrace();
+            }
         } finally {
             try {
                 Config.getGlobalConfig().writeConfig();
             } catch (Exception e) {
             }
+
+            System.exit(0);
         }
     }
 }

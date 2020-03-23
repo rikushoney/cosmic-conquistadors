@@ -20,11 +20,12 @@ public class InvaderGameState {
         this.hero = new Shooter();
     }
 
-    private void startRenderLoop() {
-        long targetFrameTime = 1;
-        //    Math.round(1000.0 / this.config.getInt("maxFps"));
+    private void startGameLoop() {
+        int targetFps = this.config.getInt("maxFps");
+        long targetFrameTime = targetFps > 0 ? 1000 / targetFps : 0;
         long timeDelta = 0;
         long lastMissileTime = 0;
+        long frameCount = 0;
 
         ArrayList<Critter> setForDeletion = new ArrayList<Critter>();
 
@@ -90,6 +91,7 @@ public class InvaderGameState {
                 StdDraw.setPenColor(StdDraw.WHITE);
                 StdDraw.text(0.8, 0.9, frameTime);
                 StdDraw.text(0.8, 0.85, fps);
+                StdDraw.text(0.8, 0.8, Long.toString(frameCount));
             }
 
             StdDraw.show();
@@ -110,6 +112,12 @@ public class InvaderGameState {
 
             // calculate the time elapsed so that we can advance our physics
             timeDelta = System.currentTimeMillis() - frameStart;
+            frameCount++;
+
+            // check if we should quit
+            if (StdDraw.isKeyPressed(KeyEvent.VK_Q)) {
+                this.shouldQuit = true;
+            }
         }
     }
 
@@ -143,6 +151,6 @@ public class InvaderGameState {
 
     public void start() {
         this.initGameState();
-        this.startRenderLoop();
+        this.startGameLoop();
     }
 }
