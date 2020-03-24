@@ -54,8 +54,8 @@ public class Config {
         "###################################",
         "",
         "# Display",
-        "windowWidth = 1024",
-        "windowHeight = 1024",
+        "windowWidth = 512",
+        "windowHeight = 512",
         "maxFps = 60",
         "",
         "# Development",
@@ -70,7 +70,6 @@ public class Config {
     public Config() {
         this.dictionary = new HashMap<String, Object>();
         this.lineIndex = -1;
-        globalConfig = this;
     }
 
     /**
@@ -80,6 +79,9 @@ public class Config {
     public Config(String filename) {
         this();
         this.filename = filename;
+        if (this.filename == DEFAULT_CONFIG_FILE) {
+            globalConfig = this;
+        }
     }
 
     /**
@@ -400,4 +402,14 @@ public class Config {
     }
 
     public static final Config getGlobalConfig() { return globalConfig; }
+
+    public static void createDefaultConfig(String filename) {
+        Out configOut = new Out(filename);
+
+        for (String line : Config.DEFAULT_CONFIG) {
+            configOut.println(line);
+        }
+
+        configOut.close();
+    }
 }
