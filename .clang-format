@@ -6,4 +6,4 @@ BreakBeforeBraces: Attach
 Language: Java
 ColumnLimit: 80
 BreakAfterJavaFieldAnnotations: true
-
+Cpp11BracedListStyle: false

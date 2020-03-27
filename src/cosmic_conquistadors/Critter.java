@@ -61,13 +61,30 @@ public interface Critter {
 
     /**
      * Gets the unique ID of the {@code Critter}
-     * @return
+     * @return  the unique ID of the {@code Critter}
      */
     public long getId();
 
     /**
-     * Gets the unique ID of the {@code Critter} as a hex string
-     * @return
+     * Gets the string unique ID of the {@code Critter}
+     * @return  the unique ID of {@code Critter} as a hex string
      */
     public String getIdString();
+
+    /**
+     * Gets the {@code Hitbox} of the {@code Critter}
+     * @return  the {@link cosmic_conquistadors.Hitbox} of the {@code Critter}
+     */
+    public Hitbox getHitbox();
+
+    /**
+     * Calculates whether two {@code Critter}s are colliding
+     * @param first     the first {@code Critter}
+     * @param second    the second {@code Critter}
+     * @return          {@code true} if the {@code Critter}s are colliding, else
+     *     {@code false}
+     */
+    public static boolean collides(Critter first, Critter second) {
+        return Hitbox.intersects(first.getHitbox(), second.getHitbox());
+    }
 }

@@ -8,6 +8,11 @@ public class Shooter extends DefaultCritter {
     public Shooter() {}
 
     @Override
+    public void advance(double dt) {
+        super.advance(dt);
+    }
+
+    @Override
     public void draw() {
         StdDraw.setPenColor(StdDraw.GREEN);
         Vector position = this.getPosition();

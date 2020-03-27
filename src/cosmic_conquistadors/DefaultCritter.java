@@ -6,10 +6,16 @@ package cosmic_conquistadors;
  * {@code Critter} moves as time changes.
  */
 public class DefaultCritter implements Critter {
-    private Vector position, velocity, acceleration;
+    private Vector position;
+    private Vector velocity;
+    private Vector acceleration;
     private long id;
+    private Hitbox hitbox;
     private static long critterCount;
 
+    /**
+     * Static contructor
+     */
     static { critterCount = 0; }
 
     /**
@@ -97,4 +103,6 @@ public class DefaultCritter implements Critter {
         return "Critter " + this.getIdString() + " at " +
             this.getPosition().toString();
     }
+
+    public Hitbox getHitbox() { return this.hitbox; }
 }

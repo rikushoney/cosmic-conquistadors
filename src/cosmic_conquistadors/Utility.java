@@ -21,9 +21,9 @@ public class Utility {
 
     /**
      * "Normalizes" the double {@code value} in a range between {@code min-max}
-     * to a value between {@code 0-1}. {@value} is linearly scaled to be the
-     * same distance from 0 as it is to {@code min} and the same distance from 1
-     * as it is from {@code max}.
+     * to a value between {@code 0-1}. {@code value} is linearly scaled to be
+     * the same distance from 0 as it is to {@code min} and the same distance
+     * from 1 as it is from {@code max}.
      * @param value the value to normalize
      * @param min   the minimum value in the range of values
      * @param max   the maximum value in the range of values
@@ -43,7 +43,7 @@ public class Utility {
 
     /**
      * "Normalizes" the int {@code value} in a range between {@code min-max} to
-     * a value between {@code 0-1}. {@value} is linearly scaled to be the
+     * a value between {@code 0-1}. {@code value} is linearly scaled to be the
      * same distance from 0 as it is to {@code min} and the same distance from 1
      * as it is from {@code max}.
      * @param value the value to normalize
@@ -65,7 +65,7 @@ public class Utility {
 
     /**
      * "Normalizes" the long {@code value} in a range between {@code min-max} to
-     * a value between {@code 0-1}. {@value} is linearly scaled to be the
+     * a value between {@code 0-1}. {@code value} is linearly scaled to be the
      * same distance from 0 as it is to {@code min} and the same distance from 1
      * as it is from {@code max}.
      * @param value the value to normalize
@@ -135,5 +135,18 @@ public class Utility {
             throw new ArithmeticException("lower can't be greater than upper");
         }
         return Math.max(lower, Math.min(value, upper));
+    }
+
+    /**
+     * Clamps the {@code Vector value} to the bounds {@code lower} and {@code
+     * upper}. Performs {@link #clamp(double, double, double) clamp} on each
+     * element in the {@link Vector Vector}.
+     * @param value the {@code Vector value} to clamp
+     * @param lower the {@code Vector lower} bound to clamp to
+     * @param upper the {@code Vector upper} bound to clamp to
+     */
+    public static void clamp(Vector value, Vector lower, Vector upper) {
+        value.setX(Utility.clamp(value.getX(), lower.getX(), upper.getX()));
+        value.setY(Utility.clamp(value.getY(), lower.getY(), upper.getY()));
     }
 }
