@@ -5,12 +5,18 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class InvaderGameState {
+    private final int MISSILE_SPAWN_DELAY = 500;
+
     private Config config;
     private boolean debugMode;
     private boolean shouldQuit;
     private ArrayList<Critter> critters;
     private ArrayList<Enemy> enemies;
     private Shooter hero;
+    private int moveLeftKeyCode;
+    private int moveRightKeyCode;
+    private int shootKeyCode;
+    private int quitKeyCode;
 
     public InvaderGameState(Config config) {
         this.config = config;
@@ -18,6 +24,15 @@ public class InvaderGameState {
         this.critters = new ArrayList<Critter>();
         this.enemies = new ArrayList<Enemy>();
         this.hero = new Shooter();
+
+        this.moveLeftKeyCode = KeyEvent.getExtendedKeyCodeForChar(
+            this.config.getString("moveLeft").charAt(0));
+        this.moveRightKeyCode = KeyEvent.getExtendedKeyCodeForChar(
+            this.config.getString("moveRight").charAt(0));
+        this.shootKeyCode = KeyEvent.getExtendedKeyCodeForChar(
+            this.config.getString("shootKey").charAt(0));
+        this.quitKeyCode = KeyEvent.getExtendedKeyCodeForChar(
+            this.config.getString("quitKey").charAt(0));
     }
 
     private void startGameLoop() {
@@ -37,9 +52,9 @@ public class InvaderGameState {
             // process hero
 
             // TODO: check that our hero does not go out of bounds!
-            if (StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)) {
+            if (StdDraw.isKeyPressed(this.moveRightKeyCode)) {
                 this.hero.setVelocity(0.001, 0);
-            } else if (StdDraw.isKeyPressed(KeyEvent.VK_LEFT)) {
+            } else if (StdDraw.isKeyPressed(this.moveLeftKeyCode)) {
                 this.hero.setVelocity(-0.001, 0);
             } else {
                 this.hero.setVelocity(0, 0);
@@ -47,8 +62,9 @@ public class InvaderGameState {
 
             // This has potential for a power-up where the hero can shoot
             // faster or maybe multiple missiles at a time?
-            if (StdDraw.isKeyPressed(KeyEvent.VK_SPACE) &&
-                System.currentTimeMillis() - lastMissileTime > 500) {
+            if (StdDraw.isKeyPressed(this.shootKeyCode) &&
+                System.currentTimeMillis() - lastMissileTime >
+                    this.MISSILE_SPAWN_DELAY) {
                 Vector heroPosition = this.hero.getPosition();
                 Missile missile = new Missile(Math.PI / 2);
                 missile.setPosition(heroPosition.getX(), heroPosition.getY());
@@ -115,7 +131,7 @@ public class InvaderGameState {
             frameCount++;
 
             // check if we should quit
-            if (StdDraw.isKeyPressed(KeyEvent.VK_Q)) {
+            if (StdDraw.isKeyPressed(this.quitKeyCode)) {
                 this.shouldQuit = true;
             }
         }
