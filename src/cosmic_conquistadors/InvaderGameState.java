@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class InvaderGameState {
     private final int MISSILE_SPAWN_DELAY = 500;
+    private final int ENEMY_BRIGADE_SIZE_X = 6;
+    private final int ENEMY_BRIGADE_SIZE_Y = 6;
 
     private Config config;
     private boolean debugMode;
@@ -25,14 +27,18 @@ public class InvaderGameState {
         this.enemies = new ArrayList<Enemy>();
         this.hero = new Shooter();
 
-        this.moveLeftKeyCode = KeyEvent.getExtendedKeyCodeForChar(
-            this.config.getString("moveLeft").charAt(0));
-        this.moveRightKeyCode = KeyEvent.getExtendedKeyCodeForChar(
-            this.config.getString("moveRight").charAt(0));
-        this.shootKeyCode = KeyEvent.getExtendedKeyCodeForChar(
-            this.config.getString("shootKey").charAt(0));
-        this.quitKeyCode = KeyEvent.getExtendedKeyCodeForChar(
-            this.config.getString("quitKey").charAt(0));
+	char moveLeft = this.config.getString("moveLeft").charAt(0);
+        this.moveLeftKeyCode = KeyEvent.getExtendedKeyCodeForChar(moveLeft);
+	Utility.debugPrintLine("Move left: <" + moveLeft + ">");
+	char moveRight = this.config.getString("moveRight").charAt(0);
+        this.moveRightKeyCode = KeyEvent.getExtendedKeyCodeForChar(moveRight);
+	Utility.debugPrintLine("Move right: <" + moveRight + ">");
+	char shootKey = this.config.getString("shootKey").charAt(0);
+        this.shootKeyCode = KeyEvent.getExtendedKeyCodeForChar(shootKey);
+        Utility.debugPrintLine("Shoot: <" + shootKey + ">");
+	char quitKey = this.config.getString("quitKey").charAt(0);
+        this.quitKeyCode = KeyEvent.getExtendedKeyCodeForChar(quitKey);
+	Utility.debugPrintLine("Quit: <" + quitKey + ">");	
     }
 
     private void startGameLoop() {
@@ -151,9 +157,9 @@ public class InvaderGameState {
 
         // spawn the brigade of enemies
         double y = 0.8;
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < ENEMY_BRIGADE_SIZE_Y; i++) {
             double x = -0.8;
-            for (int j = 0; j < 6; j++) {
+            for (int j = 0; j < ENEMY_BRIGADE_SIZE_X; j++) {
                 Enemy enemy = new Enemy();
                 enemy.setPosition(x, y);
                 this.enemies.add(enemy);
