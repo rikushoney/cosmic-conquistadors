@@ -3,18 +3,28 @@ package cosmic_conquistadors;
 import edu.princeton.cs.introcs.StdOut;
 
 /**
- * The {@code Utility} class provides as the name suggests utility methods which
+ * The {@code Utility} class provides utility methods which
  * can be useful anywhere in the game.
  */
-public class Utility {
+public final class Utility {
     private Utility() {}
 
     /**
-     * Prints the {@code message} only if debug mode is enabled
+     * Checks whether the game is run in debug mode
+     * @return  {@code true} if the game was started in debug mode, else {@code
+     *          false}
+     */
+    public static boolean isInDebugMode() {
+        return Config.getGlobalConfig().getInt("debugMode") != 0;
+    }
+
+    /**
+     * Prints the {@code message} only if debug mode is enabled ({@link
+     * #isInDebugMode() isInDebugMode} returns {@code true})
      * @param message   the message to print to standard out
      */
     public static void debugPrintLine(String message) {
-        if (Config.getGlobalConfig().getInt("debugMode") != 0) {
+        if (Utility.isInDebugMode()) {
             StdOut.println(message);
         }
     }
@@ -124,7 +134,7 @@ public class Utility {
      * Clamps the long {@code value} to the bounds {@code lower} and {@code
      * lower}. If {@code value} is greater than {@code upper} then {@code upper}
      * is returned else if {@code value} is smaller than {@code lower} then
-     * lower is returned else {@code value} is returned as is.
+     * lower is returned else {@code value} is returned unchanged.
      * @param value the value to clamp
      * @param lower the minimum value of the bounds
      * @param upper the maximum value of the bounds
@@ -135,18 +145,5 @@ public class Utility {
             throw new ArithmeticException("lower can't be greater than upper");
         }
         return Math.max(lower, Math.min(value, upper));
-    }
-
-    /**
-     * Clamps the {@code Vector value} to the bounds {@code lower} and {@code
-     * upper}. Performs {@link #clamp(double, double, double) clamp} on each
-     * element in the {@link Vector Vector}.
-     * @param value the {@code Vector value} to clamp
-     * @param lower the {@code Vector lower} bound to clamp to
-     * @param upper the {@code Vector upper} bound to clamp to
-     */
-    public static void clamp(Vector value, Vector lower, Vector upper) {
-        value.setX(Utility.clamp(value.getX(), lower.getX(), upper.getX()));
-        value.setY(Utility.clamp(value.getY(), lower.getY(), upper.getY()));
     }
 }

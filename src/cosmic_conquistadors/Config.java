@@ -46,8 +46,14 @@ public class Config {
     private int lineIndex;
     private static Config globalConfig;
 
+    /**
+     * The default filename
+     */
     public static final String DEFAULT_CONFIG_FILE = "settings.cfg";
 
+    /**
+     * The default config text
+     */
     public static final String[] DEFAULT_CONFIG = {
         "###################################",
         "# Settings for Cosmic Conquestadors",
@@ -71,6 +77,9 @@ public class Config {
 
     private enum ValueType { STRING, INTEGER, DOUBLE, INVALID }
 
+    /**
+     * Constructor
+     */
     public Config() {
         this.dictionary = new HashMap<String, Object>();
         this.lineIndex = -1;
@@ -90,8 +99,8 @@ public class Config {
 
     /**
      * Gets the name of the config file
-     * @return the name of the config file that is being read/written
-     *     from/to
+     * @return  the name of the config file that is being read/written
+     *          from/to
      */
     public String getFilename() { return this.filename; }
 
@@ -188,8 +197,7 @@ public class Config {
      * Parses the config given by {@code lines} and stores the values in
      * memory
      * @param lines                     an array of lines with valid syntax
-     * @throws ConfigParseException     when a line in {@code lines} has
-     *     invalid
+     * @throws ConfigParseException     when a line in {@code lines} has invalid
      *                                  syntax
      */
     public void parseConfig(String[] lines) throws ConfigParseException {
@@ -229,8 +237,7 @@ public class Config {
     /**
      * Modifies {@code lines} with updated values from the config in memory
      * @param lines                     an array of lines with valid syntax
-     * @throws ConfigParseException     when a line in {@code lines} has
-     *     invalid
+     * @throws ConfigParseException     when a line in {@code lines} has invalid
      *                                  syntax
      */
     public void flushConfig(String[] lines) throws ConfigParseException {
@@ -283,7 +290,7 @@ public class Config {
      * Writes the config in memory to the file given by {@link
      * #getFilename()}
      * @throws ConfigParseException     when the config file has invalid
-     *     syntax
+     *                                  syntax
      */
     public void writeConfig() throws ConfigParseException {
         String[] lines = {};
@@ -310,8 +317,7 @@ public class Config {
      * Gets an option in the config as a generic object. Rather use one of
      * the type-specific "get" methods when possible.
      * @param name  the name of the value to get
-     * @return      the value associated with {@code name} if it exists,
-     *     else
+     * @return      the value associated with {@code name} if it exists, else
      *              null
      */
     public Object getOption(String name) { return this.dictionary.get(name); }
@@ -405,8 +411,17 @@ public class Config {
         this.setOption(name, Double.valueOf(value));
     }
 
+    /**
+     * Gets the global config set by the entry point of the game
+     * @return  the global config
+     */
     public static final Config getGlobalConfig() { return globalConfig; }
 
+    /**
+     * Creates a file with the default config given by {@link #DEFAULT_CONFIG
+     * DEFAULT_CONFIG}
+     * @param filename  the filename of the file to write the default config to
+     */
     public static void createDefaultConfig(String filename) {
         Out configOut = new Out(filename);
 

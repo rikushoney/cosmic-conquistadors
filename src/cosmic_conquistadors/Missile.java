@@ -2,6 +2,10 @@ package cosmic_conquistadors;
 
 import edu.princeton.cs.introcs.StdDraw;
 
+/**
+ * The {@code Missile} class is used to represent missiles fired by either the
+ * {@link Shooter hero} or {@link Enemy enemies}
+ */
 public class Missile extends DefaultCritter {
     public static final double MISSILE_SPEED = 0.001;
     public static final double SIDE_LENGTH = 0.025;

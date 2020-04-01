@@ -1,8 +1,8 @@
 package cosmic_conquistadors;
 
 /**
- * The {@code Hitbox class represents a box which is used for collision
- * testing.}
+ * The {@code Hitbox} class represents a box which is used for collision
+ * testing.
  */
 public class Hitbox {
     private Vector position;
@@ -22,8 +22,8 @@ public class Hitbox {
 
     /**
      * Constructor
-     * @param position  the {@code Vector} position of the {@code Hitbox}
-     * @param halfSize  the {@code Vector} half size of the {@code Hitbox}
+     * @param position  the {@link Vector} position of the {@code Hitbox}
+     * @param halfSize  the {@link Vector} half size of the {@code Hitbox}
      */
     public Hitbox(Vector position, Vector halfSize) {
         this(position.getX(), position.getY(), halfSize.getX(),
@@ -49,8 +49,8 @@ public class Hitbox {
 
     /**
      * Sets the position of the {@code Hitbox}
-     * @param x the new x position
-     * @param y the new y position
+     * @param x the new x-position
+     * @param y the new y-position
      */
     public void setPosition(double x, double y) {
         this.position.setX(x);
@@ -59,8 +59,8 @@ public class Hitbox {
 
     /**
      * Sets the size of the {@code Hitbox}
-     * @param halfWidth
-     * @param halfHeight
+     * @param halfWidth     the new half width
+     * @param halfHeight    the new half height
      */
     public void setSize(double halfWidth, double halfHeight) {
         this.halfSize.setX(halfWidth);
@@ -69,7 +69,7 @@ public class Hitbox {
 
     /**
      * Sets the size of the {@code Hitbox}
-     * @param halfSize  the new half size of the {@code Hitbox}
+     * @param halfSize  the new {@link Vector} half size of the {@code Hitbox}
      */
     public void setSize(Vector halfSize) {
         this.halfSize.setX(halfSize.getX());
@@ -77,9 +77,10 @@ public class Hitbox {
     }
 
     /**
-     * Calculates the x- and y-coordinates of the {@code Hitbox}
-     * @return  the x- and y-coordinates of the {@code Hitbox} in a clockwise
-     *     rotation starting from the left edge (left->top->right->bottom)
+     * Calculates the x- and y-coordinates of the {@code Hitbox}'s edges
+     * @return  the x- and y-coordinates of the {@code Hitbox}'s edges in a
+     *          clockwise rotation starting from the left edge
+     *          (left->top->right->bottom)
      */
     public double[] edges() {
         return new double[] { this.position.getX() - this.halfSize.getX(),
@@ -93,7 +94,7 @@ public class Hitbox {
      * @param first     the first {@code Hitbox}
      * @param second    the second {@code Hitbox}
      * @return          {@code true} if the two {@code Hitbox}es are
-     *     intersecting, else {@code false}
+     *                  intersecting, else {@code false}
      */
     public static boolean intersects(Hitbox first, Hitbox second) {
         double[] firstEdges = first.edges();

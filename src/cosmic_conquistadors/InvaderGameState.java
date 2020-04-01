@@ -4,6 +4,10 @@ import edu.princeton.cs.introcs.StdDraw;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+/**
+ * The {@code InvaderGameState} class is where the state of the game is managed
+ * along with the game loop and game logic.
+ */
 public class InvaderGameState {
     private final int MISSILE_SPAWN_DELAY = 500;
     private final int ENEMY_BRIGADE_SIZE_X = 6;
@@ -27,18 +31,18 @@ public class InvaderGameState {
         this.enemies = new ArrayList<Enemy>();
         this.hero = new Shooter();
 
-	char moveLeft = this.config.getString("moveLeft").charAt(0);
+        char moveLeft = this.config.getString("moveLeft").charAt(0);
         this.moveLeftKeyCode = KeyEvent.getExtendedKeyCodeForChar(moveLeft);
-	Utility.debugPrintLine("Move left: <" + moveLeft + ">");
-	char moveRight = this.config.getString("moveRight").charAt(0);
+        Utility.debugPrintLine("Move left: <" + moveLeft + ">");
+        char moveRight = this.config.getString("moveRight").charAt(0);
         this.moveRightKeyCode = KeyEvent.getExtendedKeyCodeForChar(moveRight);
-	Utility.debugPrintLine("Move right: <" + moveRight + ">");
-	char shootKey = this.config.getString("shootKey").charAt(0);
+        Utility.debugPrintLine("Move right: <" + moveRight + ">");
+        char shootKey = this.config.getString("shootKey").charAt(0);
         this.shootKeyCode = KeyEvent.getExtendedKeyCodeForChar(shootKey);
         Utility.debugPrintLine("Shoot: <" + shootKey + ">");
-	char quitKey = this.config.getString("quitKey").charAt(0);
+        char quitKey = this.config.getString("quitKey").charAt(0);
         this.quitKeyCode = KeyEvent.getExtendedKeyCodeForChar(quitKey);
-	Utility.debugPrintLine("Quit: <" + quitKey + ">");	
+        Utility.debugPrintLine("Quit: <" + quitKey + ">");
     }
 
     private void startGameLoop() {
@@ -171,6 +175,9 @@ public class InvaderGameState {
         }
     }
 
+    /**
+     * Starts the game loop
+     */
     public void start() {
         this.initGameState();
         this.startGameLoop();

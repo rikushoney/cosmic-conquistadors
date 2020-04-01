@@ -1,9 +1,9 @@
 package cosmic_conquistadors;
 
 /**
- * The {@code DefaultCritter} is the default implementation of the {@code
+ * The {@code DefaultCritter} is the default implementation of the {@link
  * Critter} interface. It uses the equations of motion to calculate how the
- * {@code Critter} moves as time changes.
+ * {@link Critter} moves as time changes.
  */
 public class DefaultCritter implements Critter {
     private Vector position;
@@ -13,9 +13,6 @@ public class DefaultCritter implements Critter {
     private Hitbox hitbox;
     private static long critterCount;
 
-    /**
-     * Static contructor
-     */
     static { critterCount = 0; }
 
     /**
@@ -24,20 +21,20 @@ public class DefaultCritter implements Critter {
      * @param velocity      the initial velocity
      * @param acceleration  the initial acceleration
      */
-    public DefaultCritter(Vector position, Vector velocity,
-                          Vector acceleration) {
+    protected DefaultCritter(Vector position, Vector velocity,
+                             Vector acceleration) {
         this.position = position;
         this.velocity = velocity;
         this.acceleration = acceleration;
+        this.id = critterCount;
+        critterCount++;
     }
 
     /**
      * Constructor
      */
-    public DefaultCritter() {
+    protected DefaultCritter() {
         this(new Vector(), new Vector(), new Vector());
-        this.id = critterCount;
-        critterCount++;
     }
 
     public Vector getPosition() { return this.position; }
@@ -82,9 +79,9 @@ public class DefaultCritter implements Critter {
         double yAcceleration = this.acceleration.getY();
 
         this.position.setX(xPosition + xVelocity * dt +
-                           0.5 * xAcceleration * dt);
+                           0.5 * xAcceleration * Math.pow(dt, 2));
         this.position.setY(yPosition + yVelocity * dt +
-                           0.5 * yAcceleration * dt);
+                           0.5 * yAcceleration * Math.pow(dt, 2));
 
         this.velocity.setX(xVelocity + xAcceleration * dt);
         this.velocity.setY(yVelocity + yAcceleration * dt);

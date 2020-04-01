@@ -23,50 +23,62 @@ public class Vector {
     public Vector() { this(0.0, 0.0); }
 
     /**
-     * Gets the x-value of the vector
+     * Gets the x-value of the {@code Vector}
      * @return  the current x-value
      */
     public double getX() { return this.x; }
 
     /**
-     * Sets the x-value of the vector
+     * Sets the x-value of the {@code Vector}
      * @param x the new x-value
      */
     public void setX(double x) { this.x = x; }
 
     /**
-     * Gets the y-value of the vector
+     * Gets the y-value of the {@code Vector}
      * @return  the current y-value
      */
     public double getY() { return this.y; }
 
     /**
-     * Sets the y-value of the vector
+     * Sets the y-value of the {@code Vector}
      * @param y the new y-value
      */
     public void setY(double y) { this.y = y; }
 
     /**
-     * Scales the vector with a factor
-     * @param v         the vector to scale
-     * @param factor    the factor to scale the vector with
-     * @return          a new scaled version of the vector
+     * Scales the {@code Vector} with a factor
+     * @param v         the {@code Vector} to scale
+     * @param factor    the factor to scale the {@code Vector} with
      */
-    public static Vector scale(Vector v, double factor) {
-        return new Vector(v.getX() * factor, v.getY() * factor);
+    public static void scale(Vector v, double factor) {
+        v.setX(v.getX() * factor);
+        v.setY(v.getY() * factor);
     }
 
     /**
-     * Calculates the distance between 2 vectors
-     * @param v1    the first vector
-     * @param v2    the second vector
-     * @return      the distance between the 2 vectors
+     * Calculates the distance between 2 {@code Vector}s
+     * @param v1    the first {@code Vector}
+     * @param v2    the second {@code Vector}
+     * @return      the distance between the 2 {@code Vector}s
      */
     public static double distance(Vector v1, Vector v2) {
         double dx = v1.getX() - v2.getX();
         double dy = v1.getX() - v2.getY();
 
         return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+    }
+
+    /**
+     * Clamps the {@code Vector} to the bounds {@code
+     * lower} and {@code upper}. Performs {@link Utility#clamp(double, double,
+     * double) clamp} on each element in the {@code Vector}
+     * @param lower the {@code Vector lower} bounds to clamp to
+     * @param upper the {@code Vector upper} bounds to clamp to
+     */
+    public void clamp(Vector lower, Vector upper) {
+        this.setX(Utility.clamp(this.getX(), lower.getX(), upper.getX()));
+        this.setY(Utility.clamp(this.getY(), lower.getY(), upper.getY()));
     }
 
     @Override

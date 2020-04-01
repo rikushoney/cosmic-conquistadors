@@ -3,7 +3,9 @@ package cosmic_conquistadors;
 /**
  * The {@code Critter} interface defines what methods on-screen objects should
  * have. All on-screen objects should have a position, velocity and
- * acceleration. These are used to calculate how the object moves.
+ * acceleration. These are used to calculate how the object moves, how the
+ * object should be displayed and how the object interacts with other on-screen
+ * objects.
  */
 public interface Critter {
     /**
@@ -13,11 +15,17 @@ public interface Critter {
     public Vector getPosition();
 
     /**
-     * Sets the position of the of the {@code Critter}
+     * Sets the position of the {@code Critter}
      * @param position  the new position of the {@code Critter}
      */
     public void setPosition(Vector position);
 
+    /**
+     * Sets the position of the {@code Critter} on the x- and y-axis
+     * individually
+     * @param x the new x-position
+     * @param y the new y-position
+     */
     public void setPosition(double x, double y);
 
     /**
@@ -32,6 +40,12 @@ public interface Critter {
      */
     public void setVelocity(Vector velocity);
 
+    /**
+     * Sets the velocity of the {@code Critter} on the x- and y-axis
+     * individually
+     * @param x the new x-velocity
+     * @param y the new y-velocity
+     */
     public void setVelocity(double x, double y);
 
     /**
@@ -46,6 +60,12 @@ public interface Critter {
      */
     public void setAcceleration(Vector acceleration);
 
+    /**
+     * Sets the acceleration of the {@code Critter} on the x- and y-axis
+     * individually
+     * @param x the new x-acceleration
+     * @param y the new y-acceleration
+     */
     public void setAcceleration(double x, double y);
 
     /**
@@ -72,17 +92,17 @@ public interface Critter {
     public String getIdString();
 
     /**
-     * Gets the {@code Hitbox} of the {@code Critter}
-     * @return  the {@link cosmic_conquistadors.Hitbox} of the {@code Critter}
+     * Gets the {@link Hitbox} of the {@code Critter}
+     * @return  the {@link Hitbox} of the {@code Critter}
      */
     public Hitbox getHitbox();
 
     /**
-     * Calculates whether two {@code Critter}s are colliding
+     * Calculates whether two {@code Critters} are colliding
      * @param first     the first {@code Critter}
      * @param second    the second {@code Critter}
-     * @return          {@code true} if the {@code Critter}s are colliding, else
-     *     {@code false}
+     * @return          {@code true} if the {@code Critters} are colliding, else
+     *                  {@code false}
      */
     public static boolean collides(Critter first, Critter second) {
         return Hitbox.intersects(first.getHitbox(), second.getHitbox());

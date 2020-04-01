@@ -2,6 +2,11 @@ package cosmic_conquistadors;
 
 import edu.princeton.cs.introcs.StdDraw;
 
+/**
+ * The {@code Shooter} class is used to represent our so-called hero that sits
+ * at the bottom of the screen and shoots {@link Missile missiles} at oncoming
+ * {@link Enemy enemies}.
+ */
 public class Shooter extends DefaultCritter {
     public static final double SIDE_LENGTH = 0.05;
 
