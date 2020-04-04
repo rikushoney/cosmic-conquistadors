@@ -9,12 +9,17 @@ import edu.princeton.cs.introcs.StdDraw;
  */
 public class Shooter extends DefaultCritter {
     public static final double SIDE_LENGTH = 0.05;
+    public static final Vector[] BOUNDS = {
+        new Vector(-1, -1),
+        new Vector(1, 1)
+    };
 
     public Shooter() {}
 
     @Override
     public void advance(double dt) {
         super.advance(dt);
+        this.getPosition().clamp(this.BOUNDS[0], this.BOUNDS[1]);
     }
 
     @Override

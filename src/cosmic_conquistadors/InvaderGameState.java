@@ -12,6 +12,7 @@ public class InvaderGameState {
     private final int MISSILE_SPAWN_DELAY = 500;
     private final int ENEMY_BRIGADE_SIZE_X = 6;
     private final int ENEMY_BRIGADE_SIZE_Y = 6;
+    private final double HERO_DEFAULT_SPEED = 0.001;
 
     private Config config;
     private boolean debugMode;
@@ -63,9 +64,9 @@ public class InvaderGameState {
 
             // TODO: check that our hero does not go out of bounds!
             if (StdDraw.isKeyPressed(this.moveRightKeyCode)) {
-                this.hero.setVelocity(0.001, 0);
+                this.hero.setVelocity(HERO_DEFAULT_SPEED, 0);
             } else if (StdDraw.isKeyPressed(this.moveLeftKeyCode)) {
-                this.hero.setVelocity(-0.001, 0);
+                this.hero.setVelocity(-HERO_DEFAULT_SPEED, 0);
             } else {
                 this.hero.setVelocity(0, 0);
             }
