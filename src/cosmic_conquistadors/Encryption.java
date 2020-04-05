@@ -22,7 +22,6 @@ package cosmic_conquistadors;
  *      Conquistadors</a>
  */
 public final class Encryption {
-    // Treat this as a "static" class
     private Encryption() {}
 
     /**
@@ -55,6 +54,10 @@ public final class Encryption {
      * @return      a string with the decrypted data
      */
     public static String decrypt(String data, String key) {
+        if (data.length() % 8 != 0) {
+            Utility.debugPrintLine(
+                "data's length is not a multiple of 8 - data is most likely corrupt");
+        }
         String result = "";
         for (int i = 0; i < data.length() / 8; i++) {
             String chars = data.substring(i * 8, i * 8 + 8);

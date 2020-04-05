@@ -1,29 +1,40 @@
 package cosmic_conquistadors;
 
 import edu.princeton.cs.introcs.StdOut;
+import java.awt.event.KeyEvent;
 
 /**
- * The {@code Utility} class provides as the name suggests utility methods which
+ * The {@code Utility} class provides utility methods which
  * can be useful anywhere in the game.
  */
-public class Utility {
+public final class Utility {
     private Utility() {}
 
     /**
-     * Prints the {@code message} only if debug mode is enabled
+     * Checks whether the game is run in debug mode
+     * @return  {@code true} if the game was started in debug mode, else {@code
+     *          false}
+     */
+    public static boolean isInDebugMode() {
+        return Config.getGlobalConfig().getInt("debugMode") != 0;
+    }
+
+    /**
+     * Prints the {@code message} only if debug mode is enabled ({@link
+     * #isInDebugMode() isInDebugMode} returns {@code true})
      * @param message   the message to print to standard out
      */
     public static void debugPrintLine(String message) {
-        if (Config.getGlobalConfig().getInt("debugMode") != 0) {
+        if (Utility.isInDebugMode()) {
             StdOut.println(message);
         }
     }
 
     /**
      * "Normalizes" the double {@code value} in a range between {@code min-max}
-     * to a value between {@code 0-1}. {@value} is linearly scaled to be the
-     * same distance from 0 as it is to {@code min} and the same distance from 1
-     * as it is from {@code max}.
+     * to a value between {@code 0-1}. {@code value} is linearly scaled to be
+     * the same distance from 0 as it is to {@code min} and the same distance
+     * from 1 as it is from {@code max}.
      * @param value the value to normalize
      * @param min   the minimum value in the range of values
      * @param max   the maximum value in the range of values
@@ -43,7 +54,7 @@ public class Utility {
 
     /**
      * "Normalizes" the int {@code value} in a range between {@code min-max} to
-     * a value between {@code 0-1}. {@value} is linearly scaled to be the
+     * a value between {@code 0-1}. {@code value} is linearly scaled to be the
      * same distance from 0 as it is to {@code min} and the same distance from 1
      * as it is from {@code max}.
      * @param value the value to normalize
@@ -65,7 +76,7 @@ public class Utility {
 
     /**
      * "Normalizes" the long {@code value} in a range between {@code min-max} to
-     * a value between {@code 0-1}. {@value} is linearly scaled to be the
+     * a value between {@code 0-1}. {@code value} is linearly scaled to be the
      * same distance from 0 as it is to {@code min} and the same distance from 1
      * as it is from {@code max}.
      * @param value the value to normalize
@@ -124,7 +135,7 @@ public class Utility {
      * Clamps the long {@code value} to the bounds {@code lower} and {@code
      * lower}. If {@code value} is greater than {@code upper} then {@code upper}
      * is returned else if {@code value} is smaller than {@code lower} then
-     * lower is returned else {@code value} is returned as is.
+     * lower is returned else {@code value} is returned unchanged.
      * @param value the value to clamp
      * @param lower the minimum value of the bounds
      * @param upper the maximum value of the bounds
@@ -135,5 +146,25 @@ public class Utility {
             throw new ArithmeticException("lower can't be greater than upper");
         }
         return Math.max(lower, Math.min(value, upper));
+    }
+
+    /**
+     * Attempts to get a {@code KeyCode} from a given String
+     * @param key   the key to parse. Special characters should be enclosed in
+     *              square brackets ([])
+     * @return      the corrosponsing {@code KeyCode} if {@code key} was
+     *              successfully parsed, else 0
+     */
+    public static int getKeyCode(String key) {
+        if (key.length() == 1) {
+            return KeyEvent.getExtendedKeyCodeForChar(key.charAt(0));
+        } else if (key.startsWith("[") && key.endsWith("]")) {
+            String substring = key.substring(1, key.length() - 1);
+            if (substring.equals("space")) {
+                return KeyEvent.VK_SPACE;
+            }
+        }
+
+        return 0;
     }
 }
