@@ -10,10 +10,18 @@ public class Missile extends DefaultCritter {
     public static final double MISSILE_SPEED = 0.001;
     public static final double SIDE_LENGTH = 0.025;
 
-    public Missile(double angle) {
-        double horizontalVelocity = MISSILE_SPEED * Math.cos(angle);
-        double verticalVelocity = MISSILE_SPEED * Math.sin(angle);
-        this.setVelocity(new Vector(horizontalVelocity, verticalVelocity));
+    public Missile(Critter source) {
+        this.setPosition(source.getPosition());
+        if (source instanceof Shooter) {
+            Shooter shooter = (Shooter)source;
+            this.setVelocity(
+                new Vector(Missile.MISSILE_SPEED, shooter.getAim()));
+        } else if (source instanceof Enemy) {
+            this.setVelocity(0, -Missile.MISSILE_SPEED);
+        } else {
+            throw new IllegalArgumentException(
+                "Only Shooter and Enemy classes can spawn missiles");
+        }
     }
 
     @Override

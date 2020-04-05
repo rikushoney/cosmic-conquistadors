@@ -1,6 +1,7 @@
 package cosmic_conquistadors;
 
 import edu.princeton.cs.introcs.StdOut;
+import java.awt.event.KeyEvent;
 
 /**
  * The {@code Utility} class provides utility methods which
@@ -145,5 +146,25 @@ public final class Utility {
             throw new ArithmeticException("lower can't be greater than upper");
         }
         return Math.max(lower, Math.min(value, upper));
+    }
+
+    /**
+     * Attempts to get a {@code KeyCode} from a given String
+     * @param key   the key to parse. Special characters should be enclosed in
+     *              square brackets ([])
+     * @return      the corrosponsing {@code KeyCode} if {@code key} was
+     *              successfully parsed, else 0
+     */
+    public static int getKeyCode(String key) {
+        if (key.length() == 1) {
+            return KeyEvent.getExtendedKeyCodeForChar(key.charAt(0));
+        } else if (key.startsWith("[") && key.endsWith("]")) {
+            String substring = key.substring(1, key.length() - 1);
+            if (substring.equals("space")) {
+                return KeyEvent.VK_SPACE;
+            }
+        }
+
+        return 0;
     }
 }

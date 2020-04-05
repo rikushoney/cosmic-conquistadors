@@ -19,6 +19,16 @@ public class Vector {
 
     /**
      * Constructor
+     * @param length    the length of the {@code Vector}
+     * @param angle     the angle of the {@code Vector}
+     */
+    public Vector(double length, Angle angle) {
+        this.x = length * Math.cos(angle.getAngle());
+        this.y = length * Math.sin(angle.getAngle());
+    }
+
+    /**
+     * Constructor
      */
     public Vector() { this(0.0, 0.0); }
 
@@ -47,32 +57,28 @@ public class Vector {
     public void setY(double y) { this.y = y; }
 
     /**
+     * Calculates the length of the {@code Vector} using the Pythagorean theorem
+     * @return  the length of the {@code Vector}
+     */
+    public double getLength() {
+        double xSquared = Math.pow(this.getX(), 2);
+        double ySquared = Math.pow(this.getY(), 2);
+        return Math.sqrt(xSquared + ySquared);
+    }
+
+    /**
      * Scales the {@code Vector} with a factor
-     * @param v         the {@code Vector} to scale
      * @param factor    the factor to scale the {@code Vector} with
      */
-    public static void scale(Vector v, double factor) {
-        v.setX(v.getX() * factor);
-        v.setY(v.getY() * factor);
+    public void scale(double factor) {
+        this.setX(this.getX() * factor);
+        this.setY(this.getY() * factor);
     }
 
     /**
-     * Calculates the distance between 2 {@code Vector}s
-     * @param v1    the first {@code Vector}
-     * @param v2    the second {@code Vector}
-     * @return      the distance between the 2 {@code Vector}s
-     */
-    public static double distance(Vector v1, Vector v2) {
-        double dx = v1.getX() - v2.getX();
-        double dy = v1.getX() - v2.getY();
-
-        return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-    }
-
-    /**
-     * Clamps the {@code Vector} to the bounds {@code
-     * lower} and {@code upper}. Performs {@link Utility#clamp(double, double,
-     * double) clamp} on each element in the {@code Vector}
+     * Clamps the {@code Vector} to the bounds {@code lower} and {@code upper}.
+     * Performs {@link Utility#clamp(double, double, double) clamp} on each
+     * element in the {@code Vector}
      * @param lower the {@code Vector lower} bounds to clamp to
      * @param upper the {@code Vector upper} bounds to clamp to
      */
@@ -84,5 +90,28 @@ public class Vector {
     @Override
     public String toString() {
         return "[" + Double.toString(this.x) + ";" + Double.toString(y) + "]";
+    }
+
+    /**
+     * Creates a new unit {@code Vector} with a length of 1
+     * @param v the reference {@Vector}
+     * @return  a unit {@code Vector} in the direction of {@code v}
+     */
+    public static Vector toUnitVector(Vector v) {
+        double length = v.getLength();
+        return new Vector(v.getX() / length, v.getY() / length);
+    }
+
+    /**
+     * Calculates the distance between 2 {@code Vectors}
+     * @param v1    the first {@code Vector}
+     * @param v2    the second {@code Vector}
+     * @return      the distance between the 2 {@code Vectors}
+     */
+    public static double distance(Vector v1, Vector v2) {
+        double dx = v1.getX() - v2.getX();
+        double dy = v1.getX() - v2.getY();
+
+        return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
     }
 }

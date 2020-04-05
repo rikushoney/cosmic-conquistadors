@@ -98,6 +98,13 @@ public interface Critter {
     public Hitbox getHitbox();
 
     /**
+     * Tests whether {@code other} is hitting us
+     * @param other the {@code Critter} to test against
+     * @return      {@code true} if {@code other} is hitting us
+     */
+    public boolean hitTest(Critter other);
+
+    /**
      * Calculates whether two {@code Critters} are colliding
      * @param first     the first {@code Critter}
      * @param second    the second {@code Critter}

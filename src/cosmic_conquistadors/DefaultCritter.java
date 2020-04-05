@@ -37,39 +37,55 @@ public class DefaultCritter implements Critter {
         this(new Vector(), new Vector(), new Vector());
     }
 
-    public Vector getPosition() { return this.position; }
+    @Override
+    public Vector getPosition() {
+        return this.position;
+    }
 
+    @Override
     public void setPosition(Vector position) {
         this.setPosition(position.getX(), position.getY());
     }
 
+    @Override
     public void setPosition(double x, double y) {
         this.position.setX(x);
         this.position.setY(y);
     }
 
-    public Vector getVelocity() { return this.velocity; }
+    @Override
+    public Vector getVelocity() {
+        return this.velocity;
+    }
 
+    @Override
     public void setVelocity(Vector velocity) {
         this.setVelocity(velocity.getX(), velocity.getY());
     }
 
+    @Override
     public void setVelocity(double x, double y) {
         this.velocity.setX(x);
         this.velocity.setY(y);
     }
 
-    public Vector getAcceleration() { return this.acceleration; }
+    @Override
+    public Vector getAcceleration() {
+        return this.acceleration;
+    }
 
+    @Override
     public void setAcceleration(Vector acceleration) {
         this.setAcceleration(acceleration.getX(), acceleration.getY());
     }
 
+    @Override
     public void setAcceleration(double x, double y) {
         this.acceleration.setX(x);
         this.acceleration.setY(y);
     }
 
+    @Override
     public void advance(double dt) {
         double xPosition = this.position.getX();
         double yPosition = this.position.getY();
@@ -87,10 +103,15 @@ public class DefaultCritter implements Critter {
         this.velocity.setY(yVelocity + yAcceleration * dt);
     }
 
+    @Override
     public void draw() {}
 
-    public final long getId() { return this.id; }
+    @Override
+    public final long getId() {
+        return this.id;
+    }
 
+    @Override
     public final String getIdString() {
         return "[" + String.format("0x%08X", this.id) + "]";
     }
@@ -101,5 +122,13 @@ public class DefaultCritter implements Critter {
             this.getPosition().toString();
     }
 
-    public Hitbox getHitbox() { return this.hitbox; }
+    @Override
+    public Hitbox getHitbox() {
+        return this.hitbox;
+    }
+
+    @Override
+    public boolean hitTest(Critter other) {
+        return Critter.collides(this, other);
+    }
 }
