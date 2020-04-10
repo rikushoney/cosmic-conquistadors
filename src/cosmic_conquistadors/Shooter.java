@@ -24,7 +24,8 @@ public class Shooter extends DefaultCritter {
         super.advance(dt);
         this.getPosition().clamp(Shooter.BOUNDS[0], Shooter.BOUNDS[1]);
         this.aim.advance(dt);
-        this.aim.clamp(0, Math.PI);
+        // NOTE: this is handled in InvaderGameState
+        // this.aim.clamp(0, Math.PI);
     }
 
     @Override

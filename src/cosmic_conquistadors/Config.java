@@ -68,8 +68,6 @@ public class Config {
         "# Input",
         "moveLeft = \"a\"",
         "moveRight = \"d\"",
-        "aimLeft = \"w\"",
-        "aimRight = \"s\"",
         "shootKey = \" \"",
         "quitKey = \"q\"",
         "",

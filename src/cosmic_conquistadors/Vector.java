@@ -67,6 +67,19 @@ public class Vector {
     }
 
     /**
+     * Calculates the angle between the horizontal and the {@code Vector}
+     * @return  the angle between the horizontal and the direction the {@code
+     *          Vector} is pointing to
+     */
+    public double getAngle() {
+        if (this.getX() < 0) {
+            return Math.PI + Math.atan(this.getY() / this.getX());
+        }
+
+        return Math.atan(this.getY() / this.getX());
+    }
+
+    /**
      * Scales the {@code Vector} with a factor
      * @param factor    the factor to scale the {@code Vector} with
      */
@@ -93,11 +106,33 @@ public class Vector {
     }
 
     /**
+     * Adds two {@code Vectors}
+     * @param v1    the first {@code Vector}
+     * @param v2    the second {@code Vector}
+     * @return      a new {@code Vector} equal to sum of {@code v1} and {@code
+     *              v2}
+     */
+    public static Vector add(Vector v1, Vector v2) {
+        return new Vector(v1.getX() + v2.getX(), v1.getY() + v2.getY());
+    }
+
+    /**
+     * Subtracts two {@code Vectors}
+     * @param v1    the first {@code Vector}
+     * @param v2    the second {@code Vector}
+     * @return      a new {@code Vector} equal to the result of subtracting
+     *              {@code v2} from {@code v1}
+     */
+    public static Vector subtract(Vector v1, Vector v2) {
+        return new Vector(v1.getX() - v2.getX(), v1.getY() - v2.getY());
+    }
+
+    /**
      * Creates a new unit {@code Vector} with a length of 1
      * @param v the reference {@Vector}
      * @return  a unit {@code Vector} in the direction of {@code v}
      */
-    public static Vector toUnitVector(Vector v) {
+    public static Vector normalize(Vector v) {
         double length = v.getLength();
         return new Vector(v.getX() / length, v.getY() / length);
     }
