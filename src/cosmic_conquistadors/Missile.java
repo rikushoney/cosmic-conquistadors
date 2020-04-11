@@ -16,9 +16,10 @@ public class Missile extends DefaultCritter {
             Shooter shooter = (Shooter)source;
             // NOTE: should the missile's velocity depend on the velocity of the
             // shooter?
-            this.setVelocity(
-                Vector.add(new Vector(Missile.MISSILE_SPEED, shooter.getAim()),
-                           shooter.getVelocity()));
+            Vector aimVector =
+                new Vector(Missile.MISSILE_SPEED * Math.cos(shooter.getAim()),
+                           Missile.MISSILE_SPEED * Math.sin(shooter.getAim()));
+            this.setVelocity(Vector.add(aimVector, shooter.getVelocity()));
         } else if (source instanceof Enemy) {
             this.setVelocity(0, -Missile.MISSILE_SPEED);
         } else {

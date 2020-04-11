@@ -13,17 +13,18 @@ public class Shooter extends DefaultCritter {
     public static final Vector[] BOUNDS = { new Vector(-1, -1),
                                             new Vector(1, 1) };
 
-    private Angle aim;
+    private double aim;
 
-    public Shooter() { this.aim = new Angle(Math.PI / 2, 0, 0); }
+    public Shooter() { this.aim = Math.PI / 2; }
 
-    public Angle getAim() { return this.aim; }
+    public double getAim() { return this.aim; }
+
+    public void setAim(double aim) { this.aim = aim; }
 
     @Override
     public void advance(double dt) {
         super.advance(dt);
         this.getPosition().clamp(Shooter.BOUNDS[0], Shooter.BOUNDS[1]);
-        this.aim.advance(dt);
         // NOTE: this is handled in InvaderGameState
         // this.aim.clamp(0, Math.PI);
     }
@@ -35,11 +36,9 @@ public class Shooter extends DefaultCritter {
         StdDraw.filledSquare(position.getX(), position.getY(), SIDE_LENGTH);
         StdDraw.setPenColor(StdDraw.ORANGE);
         double muzzleX =
-            position.getX() +
-            Shooter.MUZZLE_LENGTH * Math.cos(this.getAim().getAngle());
+            position.getX() + Shooter.MUZZLE_LENGTH * Math.cos(this.getAim());
         double muzzleY =
-            position.getY() +
-            Shooter.MUZZLE_LENGTH * Math.sin(this.getAim().getAngle());
+            position.getY() + Shooter.MUZZLE_LENGTH * Math.sin(this.getAim());
         StdDraw.setPenRadius(0.01);
         StdDraw.line(position.getX(), position.getY(), muzzleX, muzzleY);
         StdDraw.setPenRadius();
