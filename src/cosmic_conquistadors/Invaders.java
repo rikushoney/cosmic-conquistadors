@@ -39,30 +39,38 @@ public final class Invaders {
         } catch (ConfigParseException e) {
             StdOut.println(e.getMessage());
         } catch (ConfigFileNotFoundException e) {
-            StdOut.println(
-                "Config file " + e.getFilename() +
-                " does not exist. Attempting to create and restart the game.");
-            Config.createDefaultConfig(e.getFilename());
-            try {
-                Invaders.driver();
-            } catch (Exception ex) {
-                StdOut.println("Unable to create config file " +
-                               e.getFilename() + ". Exiting...");
-            }
+            Invaders.createConfigAndRestart(e.getFilename());
         } catch (Exception e) {
             StdOut.println("Unhandled exception: " + e.getMessage());
             if (Utility.isInDebugMode()) {
                 e.printStackTrace();
             }
         } finally {
-            try {
-                Config.getGlobalConfig().writeConfig();
-            } catch (ConfigParseException e) {
-                StdOut.println("Unable to write config to file " +
-                               e.getFilename() + ". Config file unmodified.");
-            }
-
+            Invaders.writeConfigToDisk();
             System.exit(0);
+        }
+    }
+
+    private static void createConfigAndRestart(String filename) {
+        StdOut.println(
+            "Config file " + filename +
+            " does not exist. Attempting to create and restart the game.");
+        Config.createDefaultConfig(filename);
+        try {
+            Invaders.driver();
+        } catch (Exception ex) {
+            StdOut.println("Unable to create config file " + filename +
+                           ". Exiting...");
+            System.exit(0);
+        }
+    }
+
+    private static void writeConfigToDisk() {
+        try {
+            Config.getGlobalConfig().writeConfig();
+        } catch (ConfigParseException e) {
+            StdOut.println("Unable to write config to file " + e.getFilename() +
+                           ". Config file unmodified.");
         }
     }
 }

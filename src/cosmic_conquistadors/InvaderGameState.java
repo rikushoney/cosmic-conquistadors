@@ -9,12 +9,13 @@ import java.util.ArrayList;
  * along with the game loop and game logic.
  */
 public class InvaderGameState {
-    private static final int MISSILE_SPAWN_DELAY = 500; // in ms
+    private static final int MISSILE_DELAY = 500; // in ms
     private static final Vector ENEMY_BRIGADE_SIZE = new Vector(6, 6);
     private static final double HERO_DEFAULT_SPEED = 0.001;
     // private static final double HERO_DEFAULT_ANGULAR_SPEED = 0.005;
 
     private ArrayList<Critter> critters;
+    private ArrayList<Critter> setForDeletion;
     private Brigade enemies;
     private boolean debugMode;
     private boolean shouldQuit;
@@ -29,10 +30,15 @@ public class InvaderGameState {
     private Shooter hero;
     private Vector mousePosition;
 
+    /**
+     * Constructor
+     * @param config    the {@link Config config} to use for the gamestate
+     */
     public InvaderGameState(Config config) {
         this.config = config;
         this.debugMode = this.config.getInt("debugMode") != 0;
         this.critters = new ArrayList<Critter>();
+        this.setForDeletion = new ArrayList<Critter>();
         this.enemies = new Brigade(InvaderGameState.ENEMY_BRIGADE_SIZE);
         this.hero = new Shooter();
         this.mousePosition = new Vector();
@@ -68,9 +74,9 @@ public class InvaderGameState {
         StdDraw.enableDoubleBuffering();
         StdDraw.setCanvasSize(config.getInt("windowWidth"),
                               config.getInt("windowHeight"));
-        StdDraw.setScale(-1, 1);
+        StdDraw.setScale(-1.1, 1.1);
 
-        this.hero.setPosition(0, -0.9);
+        this.hero.setPosition(0, -1);
         Utility.debugPrintLine("Spawned hero " + this.hero.getIdString() +
                                " at " + this.hero.getPosition().toString());
     }
@@ -83,8 +89,6 @@ public class InvaderGameState {
         long timeDelta = 0;
         long frameStart = 0;
 
-        ArrayList<Critter> setForDeletion = new ArrayList<Critter>();
-
         while (!this.shouldQuit) {
             frameStart = this.startFrame();
 
@@ -93,18 +97,16 @@ public class InvaderGameState {
             this.hero.advance(timeDelta);
             this.hero.draw();
 
-            // TODO: enemies should move down when they reach the end of the
-            // screen and occationally shoot!
             this.enemies.advance(timeDelta);
             this.enemies.draw();
 
-            this.processCritters(timeDelta, setForDeletion);
+            this.processCritters(timeDelta);
 
             this.drawDebugInfo(timeDelta);
 
             timeDelta = this.endFrame(frameStart);
 
-            this.cleanCritters(setForDeletion);
+            this.cleanCritters();
         }
     }
 
@@ -129,7 +131,7 @@ public class InvaderGameState {
 
         boolean canFireMissile =
             System.currentTimeMillis() - this.lastMissileTime >
-            InvaderGameState.MISSILE_SPAWN_DELAY;
+            InvaderGameState.MISSILE_DELAY;
 
         // NOTE: This has potential for a power-up where the hero can shoot
         // faster or maybe multiple missiles at a time?
@@ -144,29 +146,49 @@ public class InvaderGameState {
         }
     }
 
-    private void processCritters(double timeDelta,
-                                 ArrayList<Critter> setForDeletion) {
+    private void processMissile(Missile missile) {
+        Critter source = missile.getSource();
+        if (source instanceof Shooter) {
+            if (this.enemies.hitTest(missile)) {
+                Enemy enemy = this.enemies.popInjured();
+                Utility.debugPrintLine(
+                    "Enemy " + enemy.getIdString() + " hit by shooter " +
+                    this.hero.getIdString() + " with missile " +
+                    missile.getIdString());
+                // NOTE: we should do something with the bounty for score!
+                deleteCritter(missile);
+            }
+        } else if (source instanceof Enemy) {
+            if (this.hero.hitTest(missile)) {
+                Utility.debugPrintLine("Hero " + this.hero.getIdString() +
+                                       " hit by enemy " + source.getIdString() +
+                                       " with missile " +
+                                       missile.getIdString());
+                // NOTE: we should keep track of our hero's lives and subtract
+                // here
+                deleteCritter(missile);
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid source for missile");
+        }
+    }
+
+    private void processCritters(double timeDelta) {
         for (Critter critter : this.critters) {
             critter.advance(timeDelta);
             critter.draw();
 
             // set critters out of bounds for deletion
             Vector position = critter.getPosition();
-            if (position.getX() < -1 || position.getX() > 1 ||
-                position.getY() < -1 || position.getY() > 1) {
-                setForDeletion.add(critter);
+            if (position.getX() < -1.1 || position.getX() > 1.1 ||
+                position.getY() < -1.1 || position.getY() > 1.1) {
+                this.deleteCritter(critter);
+            }
+
+            if (critter instanceof Missile) {
+                this.processMissile((Missile)critter);
             }
         }
-    }
-
-    private void cleanCritters(ArrayList<Critter> setForDeletion) {
-        for (Critter dirty : setForDeletion) {
-            this.critters.remove(dirty);
-            Utility.debugPrintLine("Deleted dirty critter " +
-                                   dirty.getIdString());
-        }
-
-        setForDeletion.clear();
     }
 
     private long startFrame() {
@@ -183,6 +205,8 @@ public class InvaderGameState {
         StdDraw.pause((int)Math.max(this.targetFrameTime - frameDelta, 0));
 
         this.frameCount++;
+
+        // return the time delta
         return System.currentTimeMillis() - frameStart;
     }
 
@@ -202,5 +226,19 @@ public class InvaderGameState {
         this.mousePosition.setY(StdDraw.mouseY());
 
         return this.mousePosition;
+    }
+
+    private void deleteCritter(Critter critter) {
+        this.setForDeletion.add(critter);
+    }
+
+    private void cleanCritters() {
+        for (Critter dirty : this.setForDeletion) {
+            this.critters.remove(dirty);
+            Utility.debugPrintLine("Deleted dirty critter " +
+                                   dirty.getIdString());
+        }
+
+        this.setForDeletion.clear();
     }
 }

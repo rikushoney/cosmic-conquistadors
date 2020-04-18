@@ -58,6 +58,14 @@ public class Hitbox {
     }
 
     /**
+     * Sets the position of the {@code Hitbox}
+     * @param position  the new position
+     */
+    public void setPosition(Vector position) {
+        this.setPosition(position.getX(), position.getY());
+    }
+
+    /**
      * Sets the size of the {@code Hitbox}
      * @param halfWidth     the new half width
      * @param halfHeight    the new half height
@@ -72,21 +80,39 @@ public class Hitbox {
      * @param halfSize  the new {@link Vector} half size of the {@code Hitbox}
      */
     public void setSize(Vector halfSize) {
-        this.halfSize.setX(halfSize.getX());
-        this.halfSize.setY(halfSize.getY());
+        this.setSize(halfSize.getX(), halfSize.getY());
     }
 
     /**
-     * Calculates the x- and y-coordinates of the {@code Hitbox}'s edges
-     * @return  the x- and y-coordinates of the {@code Hitbox}'s edges in a
-     *          clockwise rotation starting from the left edge
-     *          (left->top->right->bottom)
+     * Gets the left edge of the {@code Hitbox}
+     * @return  the x-coordinate of the left edge
      */
-    public double[] edges() {
-        return new double[] { this.position.getX() - this.halfSize.getX(),
-                              this.position.getY() + this.halfSize.getY(),
-                              this.position.getX() + this.halfSize.getX(),
-                              this.position.getY() - this.halfSize.getY() };
+    public double getLeft() {
+        return this.getPosition().getX() - this.getSize().getX();
+    }
+
+    /**
+     * Gets the top edge of the {@code Hitbox}
+     * @return  the y-coordinate of the top edge
+     */
+    public double getTop() {
+        return this.getPosition().getY() + this.getSize().getY();
+    }
+
+    /**
+     * Gets the right edge of the {@code Hitbox}
+     * @return  the x-coordinate of the right edge
+     */
+    public double getRight() {
+        return this.getPosition().getX() + this.getSize().getX();
+    }
+
+    /**
+     * Gets the bottom of the {@code Hitbox}
+     * @return  the y-coordinate of the bottom edge
+     */
+    public double getBottom() {
+        return this.getPosition().getY() - this.getSize().getY();
     }
 
     /**
@@ -97,10 +123,9 @@ public class Hitbox {
      *                  intersecting, else {@code false}
      */
     public static boolean intersects(Hitbox first, Hitbox second) {
-        double[] firstEdges = first.edges();
-        double[] secondEdges = second.edges();
-        return firstEdges[0] < secondEdges[2] &&
-            firstEdges[2] > secondEdges[0] && firstEdges[1] > secondEdges[3] &&
-            firstEdges[3] < secondEdges[0];
+        return (first.getLeft() <= second.getRight() &&
+                second.getLeft() <= first.getRight() &&
+                first.getBottom() <= second.getTop() &&
+                second.getBottom() <= first.getTop());
     }
 }

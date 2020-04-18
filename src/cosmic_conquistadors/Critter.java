@@ -21,8 +21,7 @@ public interface Critter {
     public void setPosition(Vector position);
 
     /**
-     * Sets the position of the {@code Critter} on the x- and y-axis
-     * individually
+     * Sets the position of the {@code Critter}
      * @param x the new x-position
      * @param y the new y-position
      */
@@ -41,8 +40,7 @@ public interface Critter {
     public void setVelocity(Vector velocity);
 
     /**
-     * Sets the velocity of the {@code Critter} on the x- and y-axis
-     * individually
+     * Sets the velocity of the {@code Critter}
      * @param x the new x-velocity
      * @param y the new y-velocity
      */
@@ -61,8 +59,7 @@ public interface Critter {
     public void setAcceleration(Vector acceleration);
 
     /**
-     * Sets the acceleration of the {@code Critter} on the x- and y-axis
-     * individually
+     * Sets the acceleration of the {@code Critter}
      * @param x the new x-acceleration
      * @param y the new y-acceleration
      */

@@ -39,6 +39,9 @@ public final class Utility {
      * @param min   the minimum value in the range of values
      * @param max   the maximum value in the range of values
      * @return      the normalized value
+     * @throws ArithmeticException  if {@code value} is not between {@code min}
+     *                              and {@code max} or if {@code min} is greater
+     *                              than {@code max}
      */
     public static double normalize(double value, double min, double max)
         throws ArithmeticException {
@@ -61,6 +64,9 @@ public final class Utility {
      * @param min   the minimum value in the range of values
      * @param max   the maximum value in the range of values
      * @return      the normalized value
+     * @throws ArithmeticException  if {@code value} is not between {@code min}
+     *                              and {@code max} or if {@code min} is greater
+     *                              than {@code max}
      */
     public static double normalize(int value, int min, int max)
         throws ArithmeticException {
@@ -83,6 +89,9 @@ public final class Utility {
      * @param min   the minimum value in the range
      * @param max   the maximum value in the range
      * @return      the normalized value
+     * @throws ArithmeticException  if {@code value} is not between {@code min}
+     *                              and {@code max} or if {@code min} is greater
+     *                              than {@code max}
      */
     public static double normalize(long value, long min, long max)
         throws ArithmeticException {
@@ -105,6 +114,8 @@ public final class Utility {
      * @param lower the minimum value of the bounds
      * @param upper the maximum value of the bounds
      * @return      the clamped value
+     * @throws ArithmeticException  if {@code lower} is greater than {@code
+     *                              upper}
      */
     public static double clamp(double value, double lower, double upper)
         throws ArithmeticException {
@@ -123,6 +134,8 @@ public final class Utility {
      * @param lower the minimum value of the bounds
      * @param upper the maximum value of the bounds
      * @return      the clamped value
+     * @throws ArithmeticException  if {@code lower} is greater than {@code
+     *                              upper}
      */
     public static int clamp(int value, int lower, int upper) {
         if (lower > upper) {
@@ -140,6 +153,8 @@ public final class Utility {
      * @param lower the minimum value of the bounds
      * @param upper the maximum value of the bounds
      * @return      the clamped value
+     * @throws ArithmeticException  if {@code lower} is greater than {@code
+     *                              upper}
      */
     public static long clamp(long value, long lower, long upper) {
         if (lower > upper) {

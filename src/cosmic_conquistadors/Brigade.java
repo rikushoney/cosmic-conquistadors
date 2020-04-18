@@ -2,18 +2,38 @@ package cosmic_conquistadors;
 
 import java.util.ArrayList;
 
+/**
+ * The {@code Brigade} class represents the grid of {@link Enemy enemies} that
+ * descend down to Earth.
+ */
 public class Brigade extends DefaultCritter {
     private Vector size;
     private ArrayList<Enemy> enemies;
+    private Enemy injured;
 
+    /**
+     * Constructor
+     * @param sizeX the number of {@link Enemy enemies} in the x-direction
+     * @param sizeY the number of {@link Enemy enemies} in the y-direction
+     */
     public Brigade(int sizeX, int sizeY) {
+        super();
         this.size = new Vector(sizeX, sizeY);
         this.enemies = new ArrayList<Enemy>(sizeX * sizeY);
+        // this.setVelocity(0.0001, 0);
         this.spawnEnemies();
     }
 
+    /**
+     * Constructor
+     * @param size  the size of the brigade
+     */
     public Brigade(Vector size) { this((int)size.getX(), (int)size.getY()); }
 
+    /**
+     * Gets the size of the brigade
+     * @return  the size of the brigade (width x height)
+     */
     public Vector getSize() { return this.size; }
 
     private void spawnEnemies() {
@@ -22,7 +42,9 @@ public class Brigade extends DefaultCritter {
             double x = -0.8;
             for (int j = 0; j < size.getX(); j++) {
                 Enemy enemy = new Enemy();
+                Vector velocity = this.getVelocity();
                 enemy.setPosition(x, y);
+                enemy.setVelocity(velocity.getX(), velocity.getY());
                 this.enemies.add(enemy);
                 Utility.debugPrintLine("Spawned enemy " + enemy.getIdString() +
                                        " at " + enemy.getPosition().toString());
@@ -48,9 +70,28 @@ public class Brigade extends DefaultCritter {
 
     @Override
     public boolean hitTest(Critter other) {
-        boolean result = false;
+        // NOTE: we can do some optimization here and check the large brigade
+        // rect for intersection before we check each individual enemy
         for (Enemy enemy : this.enemies) {
-            result |= enemy.hitTest(other);
+            if (enemy.hitTest(other)) {
+                this.injured = enemy;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Gets the injured {@link Enemy} and removes it from the {@code Brigade}
+     * @return  the {@link Enemy} that was hit by a {@link Missile} if any, else
+     *          null
+     */
+    public Enemy popInjured() {
+        Enemy result = this.injured;
+        if (result != null) {
+            this.enemies.remove(this.injured);
+            this.injured = null;
         }
 
         return result;

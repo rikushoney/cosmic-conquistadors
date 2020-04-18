@@ -12,7 +12,13 @@ public class Enemy extends DefaultCritter {
 
     private int bounty;
 
-    public Enemy() {}
+    /**
+     * Constructor
+     */
+    public Enemy() {
+        super();
+        this.getHitbox().setSize(Enemy.SIDE_LENGTH, Enemy.SIDE_LENGTH);
+    }
 
     /**
      * Gets the "bounty" on the enemy
@@ -32,5 +38,7 @@ public class Enemy extends DefaultCritter {
         Vector position = this.getPosition();
         StdDraw.filledSquare(position.getX(), position.getY(),
                              Enemy.SIDE_LENGTH);
+
+        super.draw();
     }
 }

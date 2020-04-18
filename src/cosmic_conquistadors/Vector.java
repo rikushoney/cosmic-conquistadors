@@ -1,8 +1,8 @@
 package cosmic_conquistadors;
 
 /**
- * The {@code Vector} class provides a way to represent values with both scale
- * and magnitude in two dimensions.
+ * The {@code Vector} class provides a way to represent values with both
+ * direction and magnitude in two dimensions.
  */
 public class Vector {
     private double x, y;
